@@ -4,9 +4,14 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+require("dotenv").config()
+require("./db/databaseConnection")
+
 const apiRouter = require("./routes/api/api");
+const adminROuter = require("./routes/admin")
 
 var app = express();
+
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -19,6 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", apiRouter);
+app.use("/admin", adminROuter)
 
 app.get("/", (req, res) => {
     res.json({ message: "welcome to my server" });
