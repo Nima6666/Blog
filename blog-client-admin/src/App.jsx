@@ -1,13 +1,11 @@
-import AdminLogin from "./pages/adminLogin"
-
+import AdminLogin from "./pages/adminLogin";
 
 function App() {
-
-  return (
-    <>
-     <AdminLogin/>
-    </>
-  )
+    return (
+        <>
+            <AdminLogin />
+        </>
+    );
 }
 
-export default App
+export default App;
