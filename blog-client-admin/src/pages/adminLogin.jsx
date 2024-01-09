@@ -24,7 +24,7 @@ export default function AdminLogin() {
             toast("logged in successfully");
             const res = await axios.post(
                 "http://localhost:3000/admin/create",
-                {},
+                {userId :await response.data.id},
                 {
                     headers: {
                         Authorization: `Bearer ${await response.data.token}`,

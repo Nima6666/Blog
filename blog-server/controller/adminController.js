@@ -67,6 +67,7 @@ module.exports.adminLogin = async (req, res) => {
                 );
                 res.json({
                     token: token,
+                    id: adminfound._id,
                 });
             } else {
                 console.log("incorrect username or password");

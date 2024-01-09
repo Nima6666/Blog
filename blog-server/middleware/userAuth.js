@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 module.exports.isAuthenticated = (req, res, next) => {
     const bearerToken = req.headers.authorization;
-    console.log(req.headers);
+    console.log(req.body);
 
     if (typeof bearerToken !== "undefined") {
         const token = bearerToken.split(" ")[1];
