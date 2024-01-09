@@ -17,6 +17,7 @@ export default function PostCreateForm({ setIsForm }) {
             }
         );
         console.log(response);
+
         navigate("/admin/posts");
     }
 
