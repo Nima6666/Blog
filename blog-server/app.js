@@ -16,16 +16,18 @@ var app = express();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+const adminCors = {
+    origin: process.env.ADMIN_ORIGIN,
+};
+
 app.use("/api", apiRouter);
-app.use("/admin", adminROuter);
+app.use("/admin", cors(adminCors), adminROuter);
 
 app.get("/", (req, res) => {
     res.json({ message: "welcome to my server" });
