@@ -26,17 +26,6 @@ export default function AdminLogin({ setUser }) {
             const tokenForLogin = await response.data.token;
 
             localStorage.setItem("token", tokenForLogin); // Storing token in Local Storage
-
-            // console.log("locallyStored Token: ", localStorage.getItem("token"));
-            // const res = await axios.post(
-            //     "http://localhost:3000/admin/create",
-            //     { admin: await response.data.username },
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${await response.data.token}`,
-            //         },
-            //     }
-            // );
             localStorage.setItem("user", await response.data.username);
             navigate("/posts");
         } catch (err) {
@@ -50,16 +39,16 @@ export default function AdminLogin({ setUser }) {
             <form
                 method="post"
                 id="adminLoginForm"
-                className="min-h-60 min-w-120 flex flex-col rounded-lg bg-slate-100 justify-around align-middle p-5 border border-black absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                className="min-h-60 min-w-120 flex flex-col rounded-lg bg-slate-100 justify-around align-middle p-5 border shadow-2xl border-gray-500  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
-                <h2 className="text-lg">Admin Login Form</h2>
+                <h2 className="text-lg self-center mb-2">Admin Login</h2>
                 <label htmlFor="username" className="flex flex-col">
                     Username
                     <input
                         type="text"
                         name="username"
                         id="username"
-                        className="outline-2 outline-double mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                        className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
                     />
                 </label>
                 <label htmlFor="password" className="flex flex-col">
@@ -68,10 +57,13 @@ export default function AdminLogin({ setUser }) {
                         type="password"
                         name="password"
                         id="password"
-                        className="border-2 border-green-500 mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                        className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
                     />
                 </label>
-                <button className="border border-black" onClick={handleLogin}>
+                <button
+                    className="border w-1/2 self-center mt-2 border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
+                    onClick={handleLogin}
+                >
                     login
                 </button>
             </form>

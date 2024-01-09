@@ -6,6 +6,8 @@ router.post("/", adminController.adminCreate);
 
 router.post("/login", adminController.adminLogin);
 
-router.post("/create", isAuth.isAuthenticated, adminController.createPost);
+router.get("/posts", isAuth.isAuthenticated, adminController.getPosts);
+
+router.post("/posts", isAuth.isAuthenticated, adminController.createPost);
 
 module.exports = router;

@@ -2,6 +2,7 @@ const { reset } = require("nodemon");
 const admin = require("../model/admin");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const post = require("../model/post");
 
 module.exports.adminCreate = async (req, res) => {
     try {
@@ -88,9 +89,20 @@ module.exports.adminLogin = async (req, res) => {
     }
 };
 
-module.exports.createPost = (req, res) => {
-    res.status(201).json({
-        success: true,
-        message: "Post created successfully",
-    });
+module.exports.getPosts = async (req, res) => {
+    try {
+        const posts = await post.find({});
+        const postsWithUrl = posts.map((post) => ({
+            ...post,
+            url: post.url,
+        }));
+        res.json(postsWithUrl);
+    } catch (error) {
+        res.json({ error });
+    }
+};
+
+module.exports.createPost = async (req, res) => {
+    console.log("created");
+    res.json(req.body);
 };

@@ -8,10 +8,14 @@ const blogSchema = new Schema({
     likes: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     comment: [
         {
-            user: {type: Schema.Types.ObjectId, ref: "Users"},
-            text: {type: String, required: true}
-        }
-    ]
+            user: { type: Schema.Types.ObjectId, ref: "Users" },
+            text: { type: String, required: true },
+        },
+    ],
+});
+
+blogSchema.virtual("url").get(function () {
+    return `/blogs/${this._id}`;
 });
 
 module.exports = mongoose.model("Post", blogSchema);
