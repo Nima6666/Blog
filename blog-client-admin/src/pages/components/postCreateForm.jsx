@@ -1,30 +1,50 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { BiX } from "react-icons/bi";
+import { useState } from "react";
 
 export default function PostCreateForm({ setIsForm }) {
-    const navigate = useNavigate;
+    const navigate = useNavigate();
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
 
-    async function handlePostCreation() {
-        const response = await axios.post(
-            "http://localhost:3000/admin/posts",
-            {},
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
-        console.log(response);
+    const [postTitle, setPostTitle] = useState("");
+    const [postContent, setPostContent] = useState("");
 
-        navigate("/admin/posts");
+    function handleFormCross() {
+        setIsForm(false);
+    }
+
+    async function handlePostCreation(event) {
+        event.preventDefault();
+
+        const formData = {
+            title: postTitle,
+            content: postContent,
+        };
+
+        try {
+            const response = await axios.post(
+                "http://localhost:3000/admin/posts",
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            console.log("response: ", response.data);
+            setIsForm(false);
+        } catch (error) {
+            console.error("Error creating post:", error);
+            // Handle error appropriately (e.g., show an error message to the user)
+        }
     }
 
     return (
         <form
             action="post"
-            className="min-h-60 min-w-96 flex flex-col rounded-lg bg-slate-100 justify-around align-middle p-5 border shadow-2xl border-gray-500  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            className=" min-h-60 min-w-96 flex flex-col rounded-lg bg-slate-100 justify-around align-middle p-5 border shadow-2xl border-gray-500  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         >
             <h1 className="text-lg self-center mb-2">Create Post</h1>
             <label htmlFor="title" className="flex flex-col">
@@ -34,6 +54,7 @@ export default function PostCreateForm({ setIsForm }) {
                     name="title"
                     id="title"
                     className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                    onChange={(e) => setPostTitle(e.target.value)}
                 />
             </label>
             <label htmlFor="content" className="flex flex-col mt-2">
@@ -43,6 +64,7 @@ export default function PostCreateForm({ setIsForm }) {
                     name="content"
                     id="content"
                     className="border-2 h-40 resize-none border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                    onChange={(e) => setPostContent(e.target.value)}
                 />
             </label>
             <button
@@ -51,6 +73,10 @@ export default function PostCreateForm({ setIsForm }) {
             >
                 Create
             </button>
+            <BiX
+                className=" rounded-full absolute top-3 right-3 scale-150 text-gray-500 transition-all hover:text-red-900 hover:bg-red-300 hover:cursor-pointer"
+                onClick={handleFormCross}
+            />
         </form>
     );
 }

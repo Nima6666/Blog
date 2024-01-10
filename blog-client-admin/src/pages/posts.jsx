@@ -13,6 +13,8 @@ export default function Posts() {
     const [responseData, setResponseData] = useState([]);
     const [isForm, setIsForm] = useState(false);
 
+    console.log(responseData);
+
     // Use a ref to track whether the toast has been shown
     const toastShown = useRef(false);
 
@@ -25,9 +27,8 @@ export default function Posts() {
                 admin: user,
             },
         });
-
-        console.log(response);
-        setResponseData(response.data);
+        const responseDataRecieved = response.data;
+        setResponseData(responseDataRecieved);
     }
 
     function handleLogout() {
@@ -56,7 +57,7 @@ export default function Posts() {
         if (!isUserLoggedIn) {
             navigate("/");
         }
-    }, [user, isUserLoggedIn, navigate]);
+    }, [user, isUserLoggedIn, navigate, isForm]);
 
     return (
         <>
@@ -64,7 +65,7 @@ export default function Posts() {
                 <>
                     <header className="sticky top-0 flex align-middle justify-between bg-blue-500 p-4 pr-20 pl-20">
                         <div className="">
-                            <h1 className="text-xl">
+                            <h1 className="text-2xl text-white">
                                 Welcome Admin{" "}
                                 <span className="font-bold">{user}</span>
                             </h1>
@@ -84,14 +85,21 @@ export default function Posts() {
                             No Posts Available
                         </h1>
                     )}
+                    {/* {responseData &&
+                        responseData.length > 0 &&
+                        responseData.map((data) => {
+                            console.log(data._doc);
+                        })} */}
                     {isForm && <PostCreateForm setIsForm={setIsForm} />}
-                    <button
-                        id="addPostBtn"
-                        className="border border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
-                        onClick={togglePostForm}
-                    >
-                        Add Post
-                    </button>
+                    <div className="w-100 flex justify-center">
+                        <button
+                            id="addPostBtn"
+                            className="mt-3 border border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
+                            onClick={togglePostForm}
+                        >
+                            Add Post
+                        </button>
+                    </div>
                 </>
             )}
             <ToastContainer />

@@ -2,15 +2,19 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
 
-export default function AdminLogin({ setUser }) {
+export default function AdminLogin() {
     const navigate = useNavigate();
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     async function handleLogin(event) {
         event.preventDefault();
         try {
             const postData = {
-                username: document.getElementById("username").value,
-                password: document.getElementById("password").value,
+                username: username,
+                password: password,
             };
 
             const response = await axios.post(
@@ -49,6 +53,7 @@ export default function AdminLogin({ setUser }) {
                         name="username"
                         id="username"
                         className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                        onChange={(e) => setUsername(e.target.value)}
                     />
                 </label>
                 <label htmlFor="password" className="flex flex-col">
@@ -58,6 +63,7 @@ export default function AdminLogin({ setUser }) {
                         name="password"
                         id="password"
                         className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
+                        onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
                 <button
