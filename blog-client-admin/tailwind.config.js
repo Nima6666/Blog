@@ -5,4 +5,9 @@ export default {
         extend: {},
     },
     plugins: [],
+    variants: {
+        extend: {
+            scale: ["group-hover"],
+        },
+    },
 };

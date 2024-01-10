@@ -10,4 +10,6 @@ router.get("/posts", isAuth.isAuthenticated, adminController.getPosts);
 
 router.post("/posts", isAuth.isAuthenticated, adminController.createPost);
 
+router.delete("/posts/:id", isAuth.isAuthenticated, adminController.deletePost);
+
 module.exports = router;

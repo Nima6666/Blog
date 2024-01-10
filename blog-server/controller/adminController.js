@@ -116,3 +116,19 @@ module.exports.createPost = async (req, res) => {
         });
     }
 };
+
+module.exports.deletePost = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+
+    try {
+        const postFoundUsingID = post.findById(id);
+        const postID = await postFoundUsingID;
+        console.log(postID);
+        post.delete({ _id: postID._id });
+    } catch (err) {
+        res.json({
+            message: err,
+        });
+    }
+};

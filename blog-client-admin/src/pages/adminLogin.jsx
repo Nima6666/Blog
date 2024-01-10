@@ -31,7 +31,7 @@ export default function AdminLogin() {
 
             localStorage.setItem("token", tokenForLogin); // Storing token in Local Storage
             localStorage.setItem("user", await response.data.username);
-            navigate("/posts");
+            navigate("/blogs");
         } catch (err) {
             console.error("got error: ", err);
             toast.error(err.response.data.message);

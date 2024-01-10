@@ -1,17 +1,23 @@
 import AdminLogin from "./pages/adminLogin";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { useState } from "react";
-import Posts from "./pages/posts";
+import Blogs from "./pages/Blogs";
+import Post from "./pages/post";
+import ErrorPage from "./pages/Error";
 
 function App() {
     const router = createBrowserRouter([
         {
             path: "/",
             element: <AdminLogin />,
+            errorElement: <ErrorPage />,
         },
         {
-            path: "/posts",
-            element: <Posts />,
+            path: "/blogs",
+            element: <Blogs />,
+        },
+        {
+            path: "/blogs/:id",
+            element: <Post />,
         },
     ]);
     return <RouterProvider router={router} />;

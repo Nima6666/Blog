@@ -15,6 +15,7 @@ module.exports.isAuthenticated = (req, res, next) => {
             }
         });
     } else {
+        console.log("smthng went wrong validating token");
         res.sendStatus(403);
     }
 };

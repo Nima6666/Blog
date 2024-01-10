@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const blogSchema = new Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
+    published: { type: Boolean, default: false },
     likes: [{ type: Schema.Types.ObjectId, ref: "Users" }],
     comment: [
         {
@@ -15,7 +16,7 @@ const blogSchema = new Schema({
 });
 
 blogSchema.virtual("url").get(function () {
-    return `/blogs/${this._id}`;
+    return `${this._id}`;
 });
 
 module.exports = mongoose.model("Post", blogSchema);

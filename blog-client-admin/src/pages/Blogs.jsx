@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import PostCreateForm from "./components/postCreateForm";
 
-export default function Posts() {
+export default function Blogs() {
     const navigate = useNavigate();
     const [user, setUser] = useState(localStorage.getItem("user"));
     const [token, setToken] = useState(localStorage.getItem("token"));
@@ -28,6 +28,7 @@ export default function Posts() {
             },
         });
         const responseDataRecieved = response.data;
+        localStorage.setItem("data", JSON.stringify(responseDataRecieved));
         setResponseData(responseDataRecieved);
     }
 
@@ -40,8 +41,19 @@ export default function Posts() {
         setIsForm(true);
     }
 
+    function handlePostClick(event) {
+        const index = event.target.id.split("t")[1];
+        const id = responseData[index].url;
+        navigate(`/blogs/${id}`);
+    }
+
     useEffect(() => {
         getPosts();
+
+        if (!token) {
+            console.log("navigated");
+            navigate("/");
+        }
 
         if (!user) {
             setUserLogin(false);
@@ -63,7 +75,7 @@ export default function Posts() {
         <>
             {isUserLoggedIn && (
                 <>
-                    <header className="sticky top-0 flex align-middle justify-between bg-blue-500 p-4 pr-20 pl-20">
+                    <header className="sticky z-10 top-0 flex align-middle justify-between shadow-md shadow-blue-950 bg-blue-900 bg-opacity-70 backdrop-blur-sm p-4 pr-20 pl-20">
                         <div className="">
                             <h1 className="text-2xl text-white">
                                 Welcome Admin{" "}
@@ -85,16 +97,33 @@ export default function Posts() {
                             No Posts Available
                         </h1>
                     )}
-                    {/* {responseData &&
-                        responseData.length > 0 &&
-                        responseData.map((data) => {
-                            console.log(data._doc);
-                        })} */}
+                    {responseData && responseData.length > 0 && (
+                        <div className="m-9 p-5 grid grid-rows-1 gap-4">
+                            {responseData.map((data, index) => {
+                                return (
+                                    <div
+                                        id={`post${index}`}
+                                        key={index}
+                                        className="relative bg-gray-200 rounded-md shadow-lg p-4 h-36 overflow-hidden duration-300 hover:scale-[1.02] hover:cursor-pointer"
+                                        onClick={(e) => handlePostClick(e)}
+                                    >
+                                        <h1 className="text-xl font-semibold mb-2 pointer-events-none">
+                                            {data._doc.title}
+                                        </h1>
+                                        <p className="pointer-events-none">
+                                            {data._doc.content}
+                                        </p>
+                                        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-b from-transparent to-gray-200"></div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                     {isForm && <PostCreateForm setIsForm={setIsForm} />}
                     <div className="w-100 flex justify-center">
                         <button
                             id="addPostBtn"
-                            className="mt-3 border border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
+                            className="mt-3 mb-5 border border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
                             onClick={togglePostForm}
                         >
                             Add Post
