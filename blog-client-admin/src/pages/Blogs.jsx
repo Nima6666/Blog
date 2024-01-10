@@ -99,7 +99,7 @@ export default function Blogs() {
                                         <h1 className="text-xl font-semibold mb-2 pointer-events-none">
                                             {data._doc.title}
                                         </h1>
-                                        <p className="pointer-events-none">
+                                        <p className="pointer-events-none text-justify">
                                             {data._doc.content}
                                         </p>
                                         <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-b from-transparent to-gray-200"></div>

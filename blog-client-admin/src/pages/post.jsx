@@ -74,11 +74,11 @@ export default function Post() {
 
     if (exists) {
         return (
-            <div className="relative bg-gray-200 rounded-md shadow-lg p-4 m-8">
+            <div className="relative bg-gray-200 rounded-md shadow-lg p-8 m-8">
                 <div id="iconsED" className="flex justify-end w-[100]">
                     {theOne._doc.published && (
                         <button
-                            className="flex items-center m-2 border border-red-600 rounded-md shadow-md shadow-red-950 p-2 bg-red-400 transition-all hover:shadow-sm hover:shadow-red-950"
+                            className="flex items-center m-2 border border-red-600 rounded-md shadow-md shadow-yellow-950 p-2 bg-yellow-500 transition-all hover:shadow-sm hover:shadow-yellow-950"
                             onClick={handlePublish}
                         >
                             Unpublish
@@ -107,7 +107,7 @@ export default function Post() {
                     </button>
                 </div>
                 <h1 className="font-bold text-xl mb-2">{theOne._doc.title}</h1>
-                <p>{theOne._doc.content}</p>
+                <p className="text-justify">{theOne._doc.content}</p>
             </div>
         );
     }
