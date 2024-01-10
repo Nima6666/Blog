@@ -1,10 +1,9 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { BiX } from "react-icons/bi";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function PostCreateForm({ setIsForm }) {
-    const navigate = useNavigate();
     const token = localStorage.getItem("token");
 
     const [postTitle, setPostTitle] = useState("");
@@ -33,11 +32,11 @@ export default function PostCreateForm({ setIsForm }) {
                 }
             );
 
-            console.log("response: ", response.data);
+            // console.log("response: ", response.data);
+            toast("Post Created");
             setIsForm(false);
         } catch (error) {
             console.error("Error creating post:", error);
-            // Handle error appropriately (e.g., show an error message to the user)
         }
     }
 

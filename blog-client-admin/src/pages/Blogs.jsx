@@ -13,11 +13,6 @@ export default function Blogs() {
     const [responseData, setResponseData] = useState([]);
     const [isForm, setIsForm] = useState(false);
 
-    console.log(responseData);
-
-    // Use a ref to track whether the toast has been shown
-    const toastShown = useRef(false);
-
     async function getPosts() {
         const response = await axios.get("http://localhost:3000/admin/posts", {
             headers: {
@@ -51,7 +46,6 @@ export default function Blogs() {
         getPosts();
 
         if (!token) {
-            console.log("navigated");
             navigate("/");
         }
 
@@ -59,11 +53,6 @@ export default function Blogs() {
             setUserLogin(false);
         } else {
             setUserLogin(true);
-
-            if (!toastShown.current) {
-                toast("Login Successful");
-                toastShown.current = true;
-            }
         }
 
         if (!isUserLoggedIn) {
@@ -131,7 +120,7 @@ export default function Blogs() {
                     </div>
                 </>
             )}
-            <ToastContainer />
+            <ToastContainer position="top-center" />
         </>
     );
 }
