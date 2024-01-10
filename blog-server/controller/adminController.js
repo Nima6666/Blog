@@ -103,6 +103,16 @@ module.exports.getPosts = async (req, res) => {
 };
 
 module.exports.createPost = async (req, res) => {
-    console.log("created");
-    res.json(req.body);
+    try {
+        const postCreation = new post(req.body);
+        const postCreated = await postCreation.save();
+        res.json({
+            message: "post Creation",
+            postCreated,
+        });
+    } catch (err) {
+        res.status(500).json({
+            message: err,
+        });
+    }
 };

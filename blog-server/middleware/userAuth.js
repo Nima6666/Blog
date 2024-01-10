@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 module.exports.isAuthenticated = (req, res, next) => {
     const bearerToken = req.headers.authorization;
-    console.log(bearerToken);
 
     if (typeof bearerToken !== "undefined") {
         const token = bearerToken.split(" ")[1];
@@ -11,7 +10,7 @@ module.exports.isAuthenticated = (req, res, next) => {
                 console.log("token invalid");
                 res.sendStatus(403);
             } else {
-                req.body = authData;
+                req.headers.authData = authData;
                 next();
             }
         });
