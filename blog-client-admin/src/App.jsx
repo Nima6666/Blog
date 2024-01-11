@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Blogs from "./pages/Blogs";
 import Post from "./pages/post";
 import ErrorPage from "./pages/Error";
+import { Provider } from "react-redux";
+import store from "./store/stateManager";
 
 function App() {
     const router = createBrowserRouter([
@@ -20,7 +22,11 @@ function App() {
             element: <Post />,
         },
     ]);
-    return <RouterProvider router={router} />;
+    return (
+        <Provider store={store}>
+            <RouterProvider router={router} />
+        </Provider>
+    );
 }
 
 export default App;
