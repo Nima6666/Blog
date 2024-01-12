@@ -3,14 +3,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-import { authDataActions } from "../store/slices/authData";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
-
 export default function AdminLogin() {
-    const dispatch = useDispatch();
-
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -37,8 +32,6 @@ export default function AdminLogin() {
 
             localStorage.setItem("token", tokenData.token); // Storing token in Local Storage
             localStorage.setItem("user", tokenData.username);
-
-            dispatch(authDataActions.setToken(tokenData.token));
 
             navigate("/blogs");
         } catch (err) {
@@ -75,14 +68,12 @@ export default function AdminLogin() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-                <Link to="/blogs">
-                    <button
-                        className="border w-1/2 self-center mt-2 border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
-                        onClick={handleLogin}
-                    >
-                        login
-                    </button>
-                </Link>
+                <button
+                    className="border w-1/2 self-center mt-2 border-green-700 rounded-md shadow-md shadow-green-950 p-2 bg-green-400 transition-all hover:shadow-sm hover:shadow-green-950"
+                    onClick={handleLogin}
+                >
+                    login
+                </button>
             </form>
             <ToastContainer />
         </>

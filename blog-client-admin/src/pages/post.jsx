@@ -7,14 +7,13 @@ import { GrFormEdit } from "react-icons/gr";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 export default function Post() {
     const navigate = useNavigate();
 
-    const [data, setData] = useState(localStorage.getItem("data"));
-
     const token = localStorage.getItem("token");
-    const dataJson = JSON.parse(data);
+    const dataJson = useSelector((state) => state.postReducer.posts);
 
     let theOne;
 

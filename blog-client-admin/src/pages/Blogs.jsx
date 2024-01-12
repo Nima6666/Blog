@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,6 +6,7 @@ import axios from "axios";
 import PostCreateForm from "./components/postCreateForm";
 import { useDispatch, useSelector } from "react-redux";
 import { postActions } from "../store/slices/posts";
+import { authDataActions } from "../store/slices/authData";
 
 export default function Blogs() {
     const dispatch = useDispatch();
@@ -13,8 +14,9 @@ export default function Blogs() {
     const navigate = useNavigate();
     const [isForm, setIsForm] = useState(false);
 
-    const tokenFromRedux = useSelector((state) => state.authDataReducer.token);
-    const userFromRedux = useSelector((state) => state.authDataReducer.user);
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
     const responseDataFromRedux = useSelector(
         (state) => state.postReducer.posts
     );
@@ -22,10 +24,10 @@ export default function Blogs() {
     async function getPosts() {
         const response = await axios.get("http://localhost:3000/admin/posts", {
             headers: {
-                Authorization: `Bearer ${tokenFromRedux}`,
+                Authorization: `Bearer ${token}`,
             },
             params: {
-                admin: userFromRedux,
+                admin: user,
             },
         });
         const responseDataRecieved = response.data;
@@ -52,9 +54,14 @@ export default function Blogs() {
     useEffect(() => {
         getPosts();
 
-        if (!tokenFromRedux) {
+        dispatch(authDataActions.setToken(localStorage.getItem("token")));
+        dispatch(authDataActions.setUser(localStorage.getItem("user")));
+
+        if (!token) {
             navigate("/");
         }
+
+        console.log("im called");
     }, []);
 
     return (
@@ -64,7 +71,7 @@ export default function Blogs() {
                     <div className="">
                         <h1 className="text-2xl text-white">
                             Welcome Admin{" "}
-                            <span className="font-bold">{userFromRedux}</span>
+                            <span className="font-bold">{user}</span>
                         </h1>
                     </div>
                     <div>
