@@ -117,6 +117,32 @@ module.exports.createPost = async (req, res) => {
     }
 };
 
+module.exports.getPost = async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+
+    try {
+        const postFoundUsingID = await post.findById(id);
+
+        if (!postFoundUsingID) {
+            return res.status(404).json({
+                success: false,
+                message: "post not found",
+            });
+        }
+
+        res.json({
+            success: true,
+            post: postFoundUsingID,
+            message: "post deleted successfully",
+        });
+    } catch (err) {
+        res.json({
+            message: err,
+        });
+    }
+};
+
 module.exports.deletePost = async (req, res) => {
     const id = req.params.id;
     console.log(id);
