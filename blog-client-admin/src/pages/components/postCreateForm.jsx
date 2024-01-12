@@ -1,7 +1,8 @@
 import axios from "axios";
 import { BiX } from "react-icons/bi";
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
 
 export default function PostCreateForm({ setIsForm }) {
     const token = localStorage.getItem("token");
@@ -35,6 +36,8 @@ export default function PostCreateForm({ setIsForm }) {
             // console.log("response: ", response.data);
             toast("Post Created");
             setIsForm(false);
+
+            // useReducer(())
         } catch (error) {
             console.error("Error creating post:", error);
         }
