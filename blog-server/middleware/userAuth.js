@@ -8,7 +8,9 @@ module.exports.isAuthenticated = (req, res, next) => {
         jwt.verify(token, process.env.SECRET, (err, authData) => {
             if (err) {
                 console.log("token invalid");
-                res.sendStatus(403);
+                res.status(403).json({
+                    message: "access denied",
+                });
             } else {
                 req.headers.authData = authData;
                 next();

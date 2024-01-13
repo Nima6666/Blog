@@ -35,8 +35,6 @@ export default function Blogs() {
                 }
             );
 
-            console.log(await response);
-
             const responseDataRecieved = await response.data;
 
             dispatch(postActions.setPosts(responseDataRecieved));
