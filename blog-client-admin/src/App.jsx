@@ -16,10 +16,12 @@ function App() {
         {
             path: "/blogs",
             element: <Blogs />,
+            errorElement: <ErrorPage />,
         },
         {
             path: "/blogs/:id",
             element: <Post />,
+            errorElement: <ErrorPage />,
         },
     ]);
     return (

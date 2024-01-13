@@ -31,19 +31,24 @@ export default function Post() {
     const { id } = useParams();
 
     async function getSelectedPost() {
-        const responseSelectedPost = await axios.get(
-            `http://localhost:3000/admin/posts/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                params: {
-                    admin: user,
-                },
-            }
-        );
+        try {
+            const responseSelectedPost = await axios.get(
+                `http://localhost:3000/admin/posts/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    params: {
+                        admin: user,
+                    },
+                }
+            );
 
-        dispatch(postActions.setSelPost(responseSelectedPost.data.post));
+            dispatch(postActions.setSelPost(responseSelectedPost.data.post));
+        } catch (err) {
+            console.error(err.response.data.message);
+            navigate("/");
+        }
     }
 
     useEffect(() => {

@@ -22,17 +22,27 @@ export default function Blogs() {
     );
 
     async function getPosts() {
-        const response = await axios.get("http://localhost:3000/admin/posts", {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            params: {
-                admin: user,
-            },
-        });
-        const responseDataRecieved = response.data;
+        try {
+            const response = await axios.get(
+                "http://localhost:3000/admin/posts",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    params: {
+                        admin: user,
+                    },
+                }
+            );
 
-        dispatch(postActions.setPosts(responseDataRecieved));
+            console.log(await response);
+
+            const responseDataRecieved = await response.data;
+
+            dispatch(postActions.setPosts(responseDataRecieved));
+        } catch (err) {
+            navigate("/");
+        }
     }
 
     function handleLogout() {
@@ -55,12 +65,6 @@ export default function Blogs() {
 
         dispatch(authDataActions.setToken(localStorage.getItem("token")));
         dispatch(authDataActions.setUser(localStorage.getItem("user")));
-
-        if (!token) {
-            navigate("/");
-        }
-
-        console.log("im called");
     }, [isForm]);
 
     return (
