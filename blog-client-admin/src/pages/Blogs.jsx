@@ -31,7 +31,6 @@ export default function Blogs() {
             },
         });
         const responseDataRecieved = response.data;
-        // localStorage.setItem("data", JSON.stringify(responseDataRecieved));
 
         dispatch(postActions.setPosts(responseDataRecieved));
     }
@@ -62,16 +61,16 @@ export default function Blogs() {
         }
 
         console.log("im called");
-    }, []);
+    }, [isForm]);
 
     return (
         <>
             <>
-                <header className="sticky z-10 top-0 flex align-middle justify-between shadow-md shadow-blue-950 bg-blue-900 bg-opacity-70 backdrop-blur-sm p-4 pr-20 pl-20">
+                <header className="sticky z-10 top-0 flex items-center justify-between shadow-md shadow-blue-950 bg-blue-900 bg-opacity-70 backdrop-blur-sm p-4 pr-20 pl-20">
                     <div className="">
                         <h1 className="text-2xl text-white">
-                            Welcome Admin{" "}
-                            <span className="font-bold">{user}</span>
+                            Welcome Admin
+                            <span className="font-bold"> {user}</span>
                         </h1>
                     </div>
                     <div>

@@ -16,4 +16,6 @@ router.delete("/posts/:id", isAuth.isAuthenticated, adminController.deletePost);
 
 router.patch("/posts/:id", isAuth.isAuthenticated, adminController.publish);
 
+router.put("/posts/:id", isAuth.isAuthenticated, adminController.edit);
+
 module.exports = router;

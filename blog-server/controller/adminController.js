@@ -184,18 +184,47 @@ module.exports.publish = async (req, res) => {
             });
         }
 
-        const updatedDataS = await post.find();
-        const updatedOne = await post.findById(id);
-
         await postFoundUsingID.updateOne({
             published: !postFoundUsingID.published,
         });
+        const updatedOne = await post.findById(id);
 
         res.json({
             success: true,
-            message: "post deleted successfully",
-            updated: updatedDataS,
+            message: "post publish status updated",
             updatedOne,
+        });
+    } catch (err) {
+        res.json({
+            message: err,
+        });
+    }
+};
+
+module.exports.edit = async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        const postFoundUsingID = await post.findById(id);
+
+        if (!postFoundUsingID) {
+            return res.status(404).json({
+                success: false,
+                message: "post not found",
+            });
+        }
+
+        await postFoundUsingID.updateOne({
+            title: req.body.title,
+            content: req.body.content,
+        });
+
+        const editedOne = await post.findById(id);
+
+        res.json({
+            success: true,
+            message: "Post Edited",
+            editedOne,
         });
     } catch (err) {
         res.json({
