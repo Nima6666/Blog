@@ -26,7 +26,11 @@ const adminCors = {
     origin: process.env.ADMIN_ORIGIN,
 };
 
-app.use("/api", apiRouter);
+const userCors = {
+    origin: process.env.USER_ORIGIN,
+};
+
+app.use("/api", cors(userCors), apiRouter);
 app.use("/admin", cors(adminCors), adminROuter);
 
 app.get("/", (req, res) => {
