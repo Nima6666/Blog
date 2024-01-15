@@ -14,19 +14,26 @@ export default function Home() {
         const response = await axios.get(
             `${import.meta.env.VITE_SERVERAPI}/posts`
         );
-
-        console.log(response.data);
-        dispatch(postActions.setPosts(response.data));
+        dispatch(postActions.setPosts(await response.data));
     }
     useEffect(() => {
         getPosts();
     }, []);
 
+    console.log(postData);
+
     return (
         <>
             <Header />
             <div id="posts">
-                {postData.length && postData.map((post) => {})}
+                {postData.length > 0 &&
+                    postData.map((posts, index) => {
+                        return (
+                            <div key={index}>
+                                <h1>{posts._doc.title}</h1>
+                            </div>
+                        );
+                    })}
             </div>
         </>
     );

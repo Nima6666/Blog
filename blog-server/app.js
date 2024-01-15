@@ -30,6 +30,8 @@ const userCors = {
     origin: process.env.USER_ORIGIN,
 };
 
+console.log(userCors);
+
 app.use("/api", cors(userCors), apiRouter);
 app.use("/admin", cors(adminCors), adminROuter);
 
