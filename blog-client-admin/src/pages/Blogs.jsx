@@ -97,7 +97,11 @@ export default function Blogs() {
                                 <div
                                     id={`post${index}`}
                                     key={index}
-                                    className="relative bg-gray-200 rounded-md shadow-lg p-4 h-36 overflow-hidden duration-300 hover:scale-[1.02] hover:cursor-pointer"
+                                    className={`relative bg-gray-200 rounded-md shadow-lg p-4 h-36 overflow-hidden duration-300 hover:scale-[1.02] hover:cursor-pointer ${
+                                        data._doc.published
+                                            ? "bg-[#dedede]"
+                                            : ""
+                                    }`}
                                     onClick={(e) => handlePostClick(e)}
                                 >
                                     <h1 className="text-xl font-semibold mb-2 pointer-events-none">
@@ -106,7 +110,9 @@ export default function Blogs() {
                                     <p className="pointer-events-none text-justify">
                                         {data._doc.content}
                                     </p>
-                                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-b from-transparent to-gray-200"></div>
+                                    <div
+                                        className={`pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-b from-transparent to-gray-200`}
+                                    ></div>
                                 </div>
                             );
                         })}

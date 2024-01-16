@@ -1,5 +1,6 @@
-import motion from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Backdrop from "../backdrop/backdrop";
+import LoginForm from "../login";
 
 const dropIn = {
     hidden: {
@@ -22,7 +23,7 @@ const dropIn = {
     },
 };
 
-const Model = ({ handleClose, text }) => {
+const Model = ({ handleClose }) => {
     return (
         <>
             <Backdrop onClick={handleClose}>
@@ -34,7 +35,7 @@ const Model = ({ handleClose, text }) => {
                     animate="visible"
                     exit="exit"
                 >
-                    sdfsadfsdf
+                    <LoginForm />
                 </motion.div>
             </Backdrop>
         </>

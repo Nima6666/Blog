@@ -7,7 +7,9 @@ module.exports.getPosts = async (req, res) => {
             ...post,
             url: post.url,
         }));
-        res.json(postsWithUrl);
+        setTimeout(() => {
+            res.json(postsWithUrl);
+        }, 500);
     } catch (error) {
         console.log("error finding posts");
         res.json({ error });
