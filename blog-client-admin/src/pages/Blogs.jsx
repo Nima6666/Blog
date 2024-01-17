@@ -99,7 +99,7 @@ export default function Blogs() {
                                     key={index}
                                     className={`relative bg-gray-200 rounded-md shadow-lg p-4 h-36 overflow-hidden duration-300 hover:scale-[1.02] hover:cursor-pointer ${
                                         data._doc.published
-                                            ? "bg-[#dedede]"
+                                            ? "bg-[#e5eed3]"
                                             : ""
                                     }`}
                                     onClick={(e) => handlePostClick(e)}

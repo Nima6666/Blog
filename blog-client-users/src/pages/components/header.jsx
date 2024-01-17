@@ -39,7 +39,7 @@ export default function Header({ loading }) {
             filter: "blur(10px)",
             transition: {
                 type: "easeInOut",
-                duration: 0.5,
+                duration: 0.2,
             },
         },
         visible: {
@@ -48,7 +48,7 @@ export default function Header({ loading }) {
             filter: "blur(0px)",
             transition: {
                 type: "easeInOut",
-                duration: 0.5,
+                duration: 0.2,
             },
         },
     };
