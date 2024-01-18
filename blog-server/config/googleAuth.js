@@ -1,6 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
-const User = require("../model/users");
+const GoogUsr = require("../model/googleOauthUser");
 
 passport.use(
     new GoogleStrategy(
@@ -10,16 +10,44 @@ passport.use(
             callbackURL: "http://localhost:3000/api/google/callback",
             passReqToCallback: true,
         },
-        (req, accessToken, refreshToken, profile, cb) => {
+        async (req, accessToken, refreshToken, profile, cb) => {
+            const foundUser = await GoogUsr.findOne({
+                googleAssignedID: profile._json.sub,
+            });
+
             console.log(profile);
+
+            if (foundUser) {
+            }
+
+            const usr = new GoogUsr({
+                name: profile._json.name,
+                email: profile._json.email,
+                googleAssignedID: profile._json.sub,
+            });
+
+            await usr.save();
 
             req.accessToken = accessToken;
             req.user = {
                 id: profile.id,
                 displayName: profile.displayName,
-                // Add other properties as needed
+                email: profile.email,
             };
-            return cb(null, profile);
+            return cb(null, profile._json);
         }
     )
 );
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err);
+    }
+});

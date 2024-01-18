@@ -2,13 +2,19 @@ const session = require("express-session");
 const router = require("express").Router();
 const userController = require("../../controller/userController");
 const passport = require("passport");
-require("../../config/googleAuth");
+const { default: axios } = require("axios");
 
 router.use(
     session({
         secret: process.env.SECRET,
+        saveUninitialized: true,
+        resave: false,
+        cookie: {
+            maxAge: 60 * 60 * 1000,
+        },
     })
 );
+require("../../config/googleAuth");
 
 router.get("/", (req, res) => {
     res.json({ message: "welcome to my Blog API" });
