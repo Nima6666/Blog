@@ -172,7 +172,7 @@ export default function Home() {
     return (
         <motion.div variants={pageAnim} exit="hide">
             <Header loading={loading} />
-            <div className="flex mt-10 mx-5">
+            <div className="flex mt-10 mx-5 flex-col lg:flex-row">
                 {loading && (
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
                         <DNA height={500} width={500} />
@@ -181,12 +181,12 @@ export default function Home() {
                 {!loading && selPost && (
                     <>
                         <motion.div
-                            className="bg-zinc-200 p-4 m-5 rounded-md flex-1 h-fit"
+                            className="bg-zinc-200 p-4 m-2 rounded-md flex-1 h-fit"
                             id="post"
                         >
                             <motion.div
                                 id="titles"
-                                className="flex"
+                                className="flex flex-wrap"
                                 variants={postContainer}
                                 initial="hidden"
                                 animate="visible"
@@ -209,7 +209,7 @@ export default function Home() {
                                 variants={contentAnim}
                                 initial="hidden"
                                 animate="visible"
-                                className="mt-4"
+                                className="mt-4 text-justify"
                             >
                                 {selPost._doc.content}
                             </motion.p>
@@ -235,9 +235,9 @@ export default function Home() {
                                 </div>
                             </motion.div>
                         </motion.div>
-                        <motion.aside>
+                        <motion.aside className=" flex-[0.35]">
                             <div id="posts">
-                                <h1 className="text-center font-bold">
+                                <h1 className="text-center mt-10 font-bold lg:mt-0">
                                     ALL POSTS
                                 </h1>
                                 {postData.length > 0 &&
@@ -245,7 +245,7 @@ export default function Home() {
                                         return (
                                             <motion.div
                                                 key={index}
-                                                className="w-[20vw] mh-20 font-bold text-lg bg-[#e2e2e2] p-4 my-4 shadow-md shadow-slate-500 rounded-md"
+                                                className=" mh-20 font-bold text-lg bg-[#e2e2e2] p-4 my-4 shadow-md shadow-slate-500 rounded-md w-[100%]"
                                                 variants={blogTitleAnim}
                                                 initial="hidden"
                                                 animate="visible"

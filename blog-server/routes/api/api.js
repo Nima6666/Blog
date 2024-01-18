@@ -1,7 +1,14 @@
+const session = require("express-session");
 const router = require("express").Router();
 const userController = require("../../controller/userController");
 const passport = require("passport");
 require("../../config/googleAuth");
+
+router.use(
+    session({
+        secret: process.env.SECRET,
+    })
+);
 
 router.get("/", (req, res) => {
     res.json({ message: "welcome to my Blog API" });
