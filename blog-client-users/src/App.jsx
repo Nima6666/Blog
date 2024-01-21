@@ -5,6 +5,7 @@ import store from "./store/store";
 import Signup from "./pages/signup";
 
 import { AnimatePresence } from "framer-motion";
+import Verification from "./pages/verifyKey";
 
 const router = createBrowserRouter([
     {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
     {
         path: "/signup",
         element: <Signup />,
+    },
+    {
+        path: "/google/:key",
+        element: <Verification />,
     },
 ]);
 

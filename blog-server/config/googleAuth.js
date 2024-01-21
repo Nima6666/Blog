@@ -1,6 +1,7 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const GoogUsr = require("../model/googleOauthUser");
+const user = require("../model/users");
 
 passport.use(
     new GoogleStrategy(
@@ -11,30 +12,30 @@ passport.use(
             passReqToCallback: true,
         },
         async (req, accessToken, refreshToken, profile, cb) => {
-            const foundUser = await GoogUsr.findOne({
-                googleAssignedID: profile._json.sub,
-            });
+            const foundUser = await GoogUsr.findById(profile._json.sub);
+            req.accessToken = accessToken;
+
+            if (foundUser) {
+                return cb(null, foundUser);
+            }
 
             console.log(profile);
 
-            if (foundUser) {
-            }
-
             const usr = new GoogUsr({
+                _id: profile._json.sub,
                 name: profile._json.name,
                 email: profile._json.email,
-                googleAssignedID: profile._json.sub,
+                profileImg: profile._json.picture,
             });
 
             await usr.save();
 
-            req.accessToken = accessToken;
             req.user = {
                 id: profile.id,
                 displayName: profile.displayName,
                 email: profile.email,
             };
-            return cb(null, profile._json);
+            return cb(null, usr);
         }
     )
 );
@@ -45,7 +46,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await User.findById(id);
+        const user = await user.findById(id);
         done(null, user);
     } catch (err) {
         done(err);

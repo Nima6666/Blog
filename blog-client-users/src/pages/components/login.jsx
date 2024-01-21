@@ -46,8 +46,16 @@ export default function LoginForm({ loading }) {
                     className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black w-[50%] self-center mt-2"
                     onClick={handleLogin}
                     disabled={loading}
+                    type="submit"
                 >
                     login
+                </button>
+                <button
+                    type="button"
+                    className="flex border border-black m-2 p-2 rounded-md items-center justify-center transition-all duration-200 hover:text-black w-[50%] self-center"
+                    onClick={googleLogin}
+                >
+                    <FaGoogle className="mr-2" /> Login with google
                 </button>
                 <p className="mt-2">
                     Dont have an account{" "}
@@ -56,12 +64,6 @@ export default function LoginForm({ loading }) {
                     </Link>
                 </p>
             </form>
-            <button
-                className="flex border border-black m-2 p-2 rounded-md items-center justify-center transition-all duration-200 hover:text-black absolute top-0 z-50"
-                onClick={googleLogin}
-            >
-                <FaGoogle className="mr-2" /> Login with google
-            </button>
         </>
     );
 }

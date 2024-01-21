@@ -21,3 +21,11 @@ module.exports.isAuthenticated = (req, res, next) => {
         res.sendStatus(403);
     }
 };
+
+module.exports.isAuthenticatedGoog = (req, res, next) => {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.sendStatus(401);
+    }
+};
