@@ -1,7 +1,5 @@
 const post = require("../model/post");
 
-const passport = require("passport");
-
 module.exports.getPosts = async (req, res) => {
     try {
         const posts = await post.find({ published: true });

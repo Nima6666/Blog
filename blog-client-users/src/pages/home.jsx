@@ -8,8 +8,8 @@ import { DNA } from "react-loader-spinner";
 
 import { postActions } from "../store/slices/postSlice";
 
-import { CiHeart } from "react-icons/ci";
-import { FaRegComments } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import { FaComment } from "react-icons/fa";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -38,16 +38,6 @@ export default function Home() {
 
         fetchData();
     }, [dispatch]);
-
-    function handleHeartHover() {
-        const heart = document.getElementById("Heart");
-        heart.setAttribute("style", "background-color: red, color:black");
-    }
-
-    function handleHeartHoverOut() {
-        const heart = document.getElementById("Heart");
-        heart.setAttribute("style", "background-color: none");
-    }
 
     const postContainer = {
         hidden: { opacity: 0 },
@@ -221,16 +211,17 @@ export default function Home() {
                                 animate="visible"
                             >
                                 <div className="flex items-center mr-4 justify-center rounded-full ">
-                                    <CiHeart
+                                    <FaHeart
                                         size={30}
-                                        className="m-2 hover:text-red-500"
-                                        onMouseEnter={handleHeartHover}
-                                        onMouseLeave={handleHeartHoverOut}
+                                        className="m-2 text-[#ababab] hover:text-red-500 hover:cursor-pointer"
                                     />{" "}
                                     0
                                 </div>
                                 <div className="flex items-center mr-2 justify-center rounded-full">
-                                    <FaRegComments size={30} className="m-2" />{" "}
+                                    <FaComment
+                                        size={30}
+                                        className="m-2 text-[#b4b4b4]"
+                                    />{" "}
                                     0
                                 </div>
                             </motion.div>
