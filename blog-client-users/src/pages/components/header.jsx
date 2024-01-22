@@ -1,9 +1,16 @@
 import { useState } from "react";
 import Model from "./model/model";
 import { AnimatePresence, motion } from "framer-motion";
+import { useSelector } from "react-redux";
 
 export default function Header({ loading }) {
     const [isForm, setIsForm] = useState(false);
+
+    const [imageLoaded, setImageLoaded] = useState(false);
+
+    const loggedInUser = useSelector((state) => state.userReducer.userIn);
+
+    console.log("loggedIn usr: ", loggedInUser);
 
     function handleClose() {
         setIsForm(false);
@@ -53,6 +60,11 @@ export default function Header({ loading }) {
         },
     };
 
+    function handleImageLoad() {
+        console.log("loaded");
+        setImageLoaded(true);
+    }
+
     return (
         <>
             <header className=" px-16 py-4 bg-[#e8e8e894]  flex justify-between items-center">
@@ -64,7 +76,7 @@ export default function Header({ loading }) {
                 >
                     BLOG <span className="text-[#423bbf]">POST</span>
                 </motion.div>
-                {!loading && (
+                {!loading && !loggedInUser && (
                     <motion.button
                         className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold shadow-md shadow-black "
                         onClick={() =>
@@ -77,6 +89,24 @@ export default function Header({ loading }) {
                     >
                         Be Our Guest
                     </motion.button>
+                )}
+                {!loading && loggedInUser && (
+                    <motion.div
+                        className="flex items-center"
+                        variants={buttonAnim}
+                        initial="hidden"
+                        animate="visible"
+                        disabled={loading}
+                    >
+                        <div className="text-lg p-2">
+                            {loggedInUser.name.split(" ")[0]}
+                        </div>
+                        <img
+                            src={loggedInUser.profileImg}
+                            onLoad={handleImageLoad}
+                            className="h-10 rounded-full"
+                        />
+                    </motion.div>
                 )}
             </header>
             <AnimatePresence

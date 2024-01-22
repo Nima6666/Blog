@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { FaGoogle } from "react-icons/fa";
-import axios from "axios";
 
 export default function LoginForm({ loading }) {
     const [username, setUsername] = useState("");
@@ -42,25 +41,21 @@ export default function LoginForm({ loading }) {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </label>
-                <div
-                    id="buttons"
-                    className="flex flex-col w-[65%] justify-center items-center p-4 self-center"
+                <button
+                    className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black w-[50%] self-center mt-2"
+                    onClick={handleLogin}
+                    disabled={loading}
+                    type="submit"
                 >
-                    <button
-                        className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black self-center mt-2 flex-1 w-[100%]"
-                        onClick={handleLogin}
-                        type="submit"
-                    >
-                        login
-                    </button>
-                    <button
-                        className="flex border border-black m-2 p-2 rounded-md items-center justify-center font-bold transition-all duration-200 hover:bg-black hover:text-white hover:cursor-pointer flex-1 w-[100%]"
-                        onClick={googleLogin}
-                        type="button"
-                    >
-                        <FaGoogle className="mr-2" /> Login with google
-                    </button>
-                </div>
+                    login
+                </button>
+                <button
+                    type="button"
+                    className="flex border border-black m-2 p-2 rounded-md items-center justify-center transition-all duration-200 hover:text-black w-[50%] self-center"
+                    onClick={googleLogin}
+                >
+                    <FaGoogle className="mr-2" /> Login with google
+                </button>
                 <p className="mt-2">
                     Dont have an account{" "}
                     <Link to="/signup" className="text-blue-700">
