@@ -8,10 +8,11 @@ const auth = require("../../middleware/userAuth");
 router.use(
     session({
         secret: process.env.SECRET,
-        saveUninitialized: true,
+        saveUninitialized: false,
         resave: false,
         cookie: {
             maxAge: 60 * 60 * 1000,
+            creationDate: Date.now(),
         },
     })
 );
@@ -22,6 +23,8 @@ router.get("/", (req, res) => {
 });
 
 router.get("/posts", userController.getPosts);
+
+router.get("/posts/:id", userController.getPost);
 
 router.get(
     "/google",

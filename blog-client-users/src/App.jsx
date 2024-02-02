@@ -6,10 +6,15 @@ import Signup from "./pages/signup";
 
 import { AnimatePresence } from "framer-motion";
 import Verification from "./pages/verifyKey";
+import { useEffect } from "react";
 
 const router = createBrowserRouter([
     {
         path: "/",
+        element: <Home />,
+    },
+    {
+        path: "/:id",
         element: <Home />,
     },
     {
@@ -23,9 +28,15 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+    useEffect(() => {
+        // Log the value of document.cookie
+        const cookie = document.cookie;
+        console.log(cookie, "cookie");
+    }, []);
+
     return (
         <Provider store={store}>
-            <AnimatePresence mode="wait" onExitComplete={() => null}>
+            <AnimatePresence mode="wait">
                 <RouterProvider router={router} />
             </AnimatePresence>
         </Provider>

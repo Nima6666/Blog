@@ -51,13 +51,13 @@ export default function LoginForm({ loading }) {
                 </button>
                 <button
                     type="button"
-                    className="flex border border-black m-2 p-2 rounded-md items-center justify-center transition-all duration-200 hover:text-black w-[50%] self-center"
+                    className="flex border text-nowrap border-black m-2 p-2 rounded-md items-center justify-center transition-all duration-200 hover:text-white hover:bg-black mw-[50%] self-center"
                     onClick={googleLogin}
                 >
-                    <FaGoogle className="mr-2" /> Login with google
+                    <FaGoogle size={20} className="mr-2" /> Login with google
                 </button>
-                <p className="mt-2">
-                    Dont have an account{" "}
+                <p className="mt-2 self-center">
+                    Don't have an account{" "}
                     <Link to="/signup" className="text-blue-700">
                         signup
                     </Link>

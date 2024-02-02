@@ -134,7 +134,7 @@ module.exports.getPost = async (req, res) => {
         res.json({
             success: true,
             post: postFoundUsingID,
-            message: "post deleted successfully",
+            message: "post found",
         });
     } catch (err) {
         res.json({
