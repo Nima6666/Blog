@@ -30,7 +30,8 @@ export default function Home() {
         const fetchData = async () => {
             try {
                 const allPosts = await axios.get(
-                    `${import.meta.env.VITE_SERVERAPI}/posts`
+                    `${import.meta.env.VITE_SERVERAPI}/posts`,
+                    { withCredentials: true }
                 );
                 dispatch(postActions.setPosts(allPosts.data));
                 let response = "";

@@ -3,7 +3,6 @@ const passport = require("passport");
 
 const googleUser = require("../model/googleOauthUser");
 module.exports.getPosts = async (req, res) => {
-    console.log(req.session, "session");
     try {
         const posts = await post.find({ published: true });
         const postsWithUrl = posts.map((post) => ({
@@ -37,8 +36,6 @@ module.exports.getPost = async (req, res) => {
             postFoundUsingID,
             url: postFoundUsingID.url,
         };
-
-        console.log(postsWithUrl);
 
         res.json({
             url: postFoundUsingID.url,

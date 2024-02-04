@@ -28,11 +28,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-    useEffect(() => {
-        // Log the value of document.cookie
-        const cookie = document.cookie;
-        console.log(cookie, "cookie");
-    }, []);
+    // useEffect(() => {
+    //     // Log the value of document.cookie
+    //     const cookie = document.cookie;
+    //     console.log(cookie, "cookie");
+    // }, []);
 
     return (
         <Provider store={store}>

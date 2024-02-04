@@ -38,15 +38,30 @@ passport.use(
     )
 );
 
+// passport.serializeUser((user, done) => {
+//     console.log(user, "serializing");
+//     done(null, user);
+// });
+
+// passport.deserializeUser(async (id, done) => {
+//     try {
+//         const user = await user.findById(id);
+//         done(null, user);
+//     } catch (err) {
+//         done(err);
+//     }
+// });
+
 passport.serializeUser((user, done) => {
-    console.log(user, "serializing");
-    done(null, user);
+    console.log("Serializing ", user);
+    done(null, user._id); // Store only the user ID in the session
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await user.findById(id);
-        done(null, user);
+        const foundUser = await GoogUsr.findById(id);
+        console.log("Deserializing ", foundUser);
+        done(null, foundUser); // Attach the user object to req.user
     } catch (err) {
         done(err);
     }

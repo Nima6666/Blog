@@ -16,15 +16,19 @@ router.use(
         },
     })
 );
+
+router.use(passport.initialize());
+router.use(passport.session());
+
 require("../../config/googleAuth");
 
 router.get("/", (req, res) => {
     res.json({ message: "welcome to my Blog API" });
 });
 
-router.get("/posts", userController.getPosts);
+router.get("/posts", auth.isAuthenticatedGoog, userController.getPosts);
 
-router.get("/posts/:id", userController.getPost);
+router.get("/posts/:id", auth.isAuthenticatedGoog, userController.getPost);
 
 router.get(
     "/google",

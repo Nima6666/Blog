@@ -23,9 +23,12 @@ module.exports.isAuthenticated = (req, res, next) => {
 };
 
 module.exports.isAuthenticatedGoog = (req, res, next) => {
+    console.log("Checking authentication...");
     if (req.isAuthenticated()) {
-        next();
+        console.log("User is authenticated.");
+        return next();
     } else {
-        res.sendStatus(401);
+        console.log("User is not authenticated.");
+        return next();
     }
 };

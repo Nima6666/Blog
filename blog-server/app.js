@@ -28,6 +28,7 @@ const adminCors = {
 
 const userCors = {
     origin: process.env.USER_ORIGIN,
+    credentials: true,
 };
 
 app.use("/api", cors(userCors), apiRouter);
