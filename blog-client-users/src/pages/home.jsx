@@ -38,7 +38,8 @@ export default function Home() {
                 if (id) {
                     console.log(id, "clicked Id");
                     response = await axios.get(
-                        `${import.meta.env.VITE_SERVERAPI}/posts/${id}`
+                        `${import.meta.env.VITE_SERVERAPI}/posts/${id}`,
+                        { withCredentials: true }
                     );
                     console.log(response.data, "this", id);
                     dispatch(postActions.setSelPost(await response.data));
