@@ -10,7 +10,7 @@ export default function Header({ loading }) {
 
     const loggedInUser = useSelector((state) => state.userReducer.userIn);
 
-    console.log("loggedIn usr: ", loggedInUser);
+    // console.log("loggedIn usr: ", loggedInUser);
 
     function handleClose() {
         setIsForm(false);

@@ -10,7 +10,7 @@ module.exports.getPosts = async (req, res) => {
             url: post.url,
         }));
         setTimeout(() => {
-            res.json(postsWithUrl);
+            res.json({ posts: [...postsWithUrl], user: req.user });
         }, 500);
     } catch (error) {
         console.log("error finding posts");
@@ -35,6 +35,7 @@ module.exports.getPost = async (req, res) => {
         const postsWithUrl = {
             postFoundUsingID,
             url: postFoundUsingID.url,
+            user: req.user,
         };
 
         res.json({

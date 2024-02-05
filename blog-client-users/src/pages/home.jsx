@@ -33,7 +33,8 @@ export default function Home() {
                     `${import.meta.env.VITE_SERVERAPI}/posts`,
                     { withCredentials: true }
                 );
-                dispatch(postActions.setPosts(allPosts.data));
+                console.log(await allPosts);
+                dispatch(postActions.setPosts(allPosts.data.posts));
                 let response = "";
                 if (id) {
                     console.log(id, "clicked Id");
@@ -46,12 +47,15 @@ export default function Home() {
                     setTitleArr(await response.data._doc.title.split(" "));
                 } else {
                     const index = Math.floor(
-                        Math.random() * allPosts.data.length
+                        Math.random() * allPosts.data.posts.length
                     );
+                    console.log(allPosts.data.posts[index]._doc.title);
                     setTitleArr(
-                        await allPosts.data[index]._doc.title.split(" ")
+                        await allPosts.data.posts[index]._doc.title.split(" ")
                     );
-                    dispatch(postActions.setSelPost(allPosts.data[index]));
+                    dispatch(
+                        postActions.setSelPost(allPosts.data.posts[index])
+                    );
                 }
                 setLoading(false);
             } catch (error) {

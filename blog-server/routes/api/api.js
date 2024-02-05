@@ -43,20 +43,20 @@ router.get(
     async (req, res) => {
         try {
             const accessToken = req.accessToken;
-            // if (!accessToken) {
-            //     return res.status(401).json({ error: "Unauthorized" });
-            // }
-            // const response = await axios.get(
-            //     `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`
-            // );
-            // const tokenInfo = response.data;
+            if (!accessToken) {
+                return res.status(401).json({ error: "Unauthorized" });
+            }
+            const response = await axios.get(
+                `https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=${accessToken}`
+            );
+            const tokenInfo = response.data;
 
             // Validate the tokenInfo as needed
-            // if (tokenInfo.aud === process.env.GOOGLE_CLIENT_ID) {
-            res.redirect(`http://localhost:3030/google/${accessToken}`);
-            // } else {
-            //     res.status(401).json({ error: "Unauthorized" });
-            // }
+            if (tokenInfo.aud === process.env.GOOGLE_CLIENT_ID) {
+                res.redirect(`http://localhost:3030/google/${accessToken}`);
+            } else {
+                res.status(401).json({ error: "Unauthorized" });
+            }
         } catch (error) {
             console.error("Error verifying Google token:", error.message);
             res.status(500).json({ error: "Internal Server Error" });
