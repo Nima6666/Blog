@@ -11,6 +11,7 @@ import { postActions } from "../store/slices/postSlice";
 import { FaHeart } from "react-icons/fa";
 import { FaComment } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import { userActions } from "../store/slices/userSlice";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -19,11 +20,14 @@ export default function Home() {
 
     const [loading, setLoading] = useState(true);
     const [titleArr, setTitleArr] = useState([]);
+    const [userLoggedIn, setUserLoggedIn] = useState(null);
 
     const [postFetched, setPostFetched] = useState(false);
 
     const postData = useSelector((state) => state.postReducer.posts);
     const selPost = useSelector((state) => state.postReducer.selPost);
+    const loggedInUser = useSelector((state) => state.userReducer.userIn);
+
     console.log(selPost, "selected");
 
     useEffect(() => {
@@ -45,6 +49,14 @@ export default function Home() {
                     console.log(response.data, "this", id);
                     dispatch(postActions.setSelPost(await response.data));
                     setTitleArr(await response.data._doc.title.split(" "));
+
+                    console.log(await response.data.user, "Session");
+
+                    // if (response.data.user) {
+                    //     // dispatch(userActions.setUser(await response.data.user));
+                    //     console.log(response.data.user, "logged in user now");
+                    //     setUserLoggedIn(await response.data.user);
+                    // }
                 } else {
                     const index = Math.floor(
                         Math.random() * allPosts.data.posts.length
@@ -208,7 +220,9 @@ export default function Home() {
                 animate="visible"
                 exit="hidden"
             >
-                <Header loading={loading} />
+                {userLoggedIn && (
+                    <Header loading={loading} user={userLoggedIn} />
+                )}
                 <div className="flex mt-10 mx-5 flex-col lg:flex-row">
                     {loading && (
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">

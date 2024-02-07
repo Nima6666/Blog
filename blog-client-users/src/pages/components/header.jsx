@@ -3,12 +3,12 @@ import Model from "./model/model";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSelector } from "react-redux";
 
-export default function Header({ loading }) {
+export default function Header({ loading, user }) {
     const [isForm, setIsForm] = useState(false);
 
     const [imageLoaded, setImageLoaded] = useState(false);
 
-    const loggedInUser = useSelector((state) => state.userReducer.userIn);
+    const loggedInUser = user;
 
     // console.log("loggedIn usr: ", loggedInUser);
 

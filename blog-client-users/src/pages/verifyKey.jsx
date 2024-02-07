@@ -22,6 +22,7 @@ export default function Verification() {
                     `${import.meta.env.VITE_SERVERAPI}/getLoggedInUser`,
                     { id: id }
                 );
+                console.log(loggedInUser, "logged in");
                 dispatch(userActions.setUser(await loggedInUser.data));
                 navigate("/");
             } catch (err) {
