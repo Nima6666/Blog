@@ -59,3 +59,41 @@ module.exports.getLoggedInUser = async (req, res) => {
         res.json(err);
     }
 };
+
+module.exports.getCurrentUser = (req, res) => {
+    console.log(req.session);
+    try {
+        res.json(req.user);
+    } catch (err) {
+        res.error(err);
+    }
+};
+
+module.exports.logout = async (req, res) => {
+    try {
+        // req.logout((err) => {
+        //     if (err) {
+        //         return res.send({ error: err });
+        //     }
+        //     res.clearCookie();
+        console.log("logging out");
+        //     res.json({
+        //         success: true,
+        //         message: "user logged out successfully",
+        //     });
+        // });
+
+        req.session.destroy((err) => {
+            if (err) {
+                console.error("Error destroying session", err);
+                return res
+                    .status(500)
+                    .json({ success: false, message: "Logout failed" });
+            }
+            // Optionally, clear cookies or tokens here if needed
+            res.json({ success: true, message: "Logout successful" });
+        });
+    } catch (err) {
+        res.json(err);
+    }
+};

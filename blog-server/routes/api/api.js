@@ -26,9 +26,9 @@ router.get("/", (req, res) => {
     res.json({ message: "welcome to my Blog API" });
 });
 
-router.get("/posts", auth.isAuthenticatedGoog, userController.getPosts);
+router.get("/posts", userController.getPosts);
 
-router.get("/posts/:id", auth.isAuthenticatedGoog, userController.getPost);
+router.get("/posts/:id", userController.getPost);
 
 router.get(
     "/google",
@@ -53,7 +53,7 @@ router.get(
 
             // Validate the tokenInfo as needed
             if (tokenInfo.aud === process.env.GOOGLE_CLIENT_ID) {
-                res.redirect(`http://localhost:3030/google/${accessToken}`);
+                res.redirect(`http://localhost:3030/`);
             } else {
                 res.status(401).json({ error: "Unauthorized" });
             }
@@ -65,5 +65,9 @@ router.get(
 );
 
 router.post("/getLoggedInUser", userController.getLoggedInUser);
+
+router.get("/session", auth.isAuthenticatedGoog, userController.getCurrentUser);
+
+router.post("/logout", auth.isAuthenticatedGoog, userController.logout);
 
 module.exports = router;
