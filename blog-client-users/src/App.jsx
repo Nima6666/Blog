@@ -21,19 +21,9 @@ const router = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
     },
-    {
-        path: "/google/:key",
-        element: <Verification />,
-    },
 ]);
 
 function App() {
-    // useEffect(() => {
-    //     // Log the value of document.cookie
-    //     const cookie = document.cookie;
-    //     console.log(cookie, "cookie");
-    // }, []);
-
     return (
         <Provider store={store}>
             <AnimatePresence mode="wait">

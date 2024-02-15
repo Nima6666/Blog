@@ -3,8 +3,6 @@ const router = require("express").Router();
 const userController = require("../../controller/userController");
 const passport = require("passport");
 const { default: axios } = require("axios");
-const auth = require("../../middleware/userAuth");
-
 router.use(
     session({
         secret: process.env.SECRET,
@@ -16,6 +14,7 @@ router.use(
         },
     })
 );
+const auth = require("../../middleware/userAuth");
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -64,10 +63,16 @@ router.get(
     }
 );
 
-router.post("/getLoggedInUser", userController.getLoggedInUser);
+router.post(
+    "/getLoggedInUser",
+    auth.isAuthenticatedGoog,
+    userController.getLoggedInUser
+);
 
 router.get("/session", auth.isAuthenticatedGoog, userController.getCurrentUser);
 
 router.post("/logout", auth.isAuthenticatedGoog, userController.logout);
+
+router.post("/user", userController.createUser);
 
 module.exports = router;

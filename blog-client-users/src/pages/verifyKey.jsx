@@ -18,12 +18,6 @@ export default function Verification() {
                 );
                 console.log(response.data);
                 const id = response.data.sub;
-                const loggedInUser = await axios.post(
-                    `${import.meta.env.VITE_SERVERAPI}/getLoggedInUser`,
-                    { id: id }
-                );
-                console.log(loggedInUser, "logged in");
-                dispatch(userActions.setUser(await loggedInUser.data));
                 navigate("/");
             } catch (err) {
                 console.error(err);

@@ -28,8 +28,6 @@ export default function Home() {
     const selPost = useSelector((state) => state.postReducer.selPost);
     const loggedInUser = useSelector((state) => state.userReducer.userIn);
 
-    console.log(selPost, "selected");
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -37,31 +35,19 @@ export default function Home() {
                     `${import.meta.env.VITE_SERVERAPI}/posts`,
                     { withCredentials: true }
                 );
-                console.log(await allPosts);
                 dispatch(postActions.setPosts(allPosts.data.posts));
                 let response = "";
                 if (id) {
-                    console.log(id, "clicked Id");
                     response = await axios.get(
                         `${import.meta.env.VITE_SERVERAPI}/posts/${id}`,
                         { withCredentials: true }
                     );
-                    console.log(response.data, "this", id);
                     dispatch(postActions.setSelPost(await response.data));
                     setTitleArr(await response.data._doc.title.split(" "));
-
-                    console.log(await response.data.user, "Session");
-
-                    // if (response.data.user) {
-                    //     // dispatch(userActions.setUser(await response.data.user));
-                    //     console.log(response.data.user, "logged in user now");
-                    //     setUserLoggedIn(await response.data.user);
-                    // }
                 } else {
                     const index = Math.floor(
                         Math.random() * allPosts.data.posts.length
                     );
-                    console.log(allPosts.data.posts[index]._doc.title);
                     setTitleArr(
                         await allPosts.data.posts[index]._doc.title.split(" ")
                     );
@@ -220,10 +206,11 @@ export default function Home() {
                 animate="visible"
                 exit="hidden"
             >
-                {userLoggedIn && (
-                    <Header loading={loading} user={userLoggedIn} />
-                )}
-                <div className="flex mt-10 mx-5 flex-col lg:flex-row">
+                <Header loading={loading} />
+                <div
+                    className="flex mt-10 mx-5 flex-col lg:flex-row"
+                    id="restOfTheThings"
+                >
                     {loading && (
                         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
                             <DNA height={500} width={500} />
@@ -301,9 +288,9 @@ export default function Home() {
                                                     <Link
                                                         to={`/${posts._doc._id}`}
                                                         onClick={test}
+                                                        key={index}
                                                     >
                                                         <motion.div
-                                                            key={index}
                                                             className=" mh-20 font-bold text-lg bg-[#e2e2e2] p-4 my-4 shadow-md shadow-slate-500 rounded-md w-[100%]"
                                                             variants={
                                                                 blogTitleAnim
