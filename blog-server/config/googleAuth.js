@@ -1,6 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
-const GoogUsr = require("../model/googleOauthUser");
+const GoogUsr = require("../model/User");
 const user = require("../model/users");
 
 passport.use(
@@ -26,6 +26,7 @@ passport.use(
                 name: profile._json.name,
                 email: profile._json.email,
                 profileImg: profile._json.picture,
+                oAuth: true,
             });
 
             await usr.save();

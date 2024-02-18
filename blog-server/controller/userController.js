@@ -4,7 +4,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const User = require("../model/users");
 
-const googleUser = require("../model/googleOauthUser");
+const googleUser = require("../model/User");
 module.exports.getPosts = async (req, res) => {
     try {
         const posts = await post.find({ published: true });
