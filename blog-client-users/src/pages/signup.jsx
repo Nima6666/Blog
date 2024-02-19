@@ -66,7 +66,7 @@ export default function Signup() {
                 className="flex flex-col m-16 justify-center items-center"
             >
                 <h1 className="text-center text-xl font-bold">SIGNUP FORM</h1>
-                <div className="grid lg:grid-cols-2 place-content-center w-fit justify-center gap-[10px] p-2 bg-slate-100 rounded-md">
+                <div className="grid lg:grid-cols-2 place-content-center w-fit justify-center gap-[10px] p-4 mt-2 bg-slate-100 rounded-md">
                     <label htmlFor="firstname">
                         Firstname
                         <input
@@ -91,26 +91,14 @@ export default function Signup() {
                             required
                         />
                     </label>
-                    <label htmlFor="username">
-                        Username
-                        <input
-                            className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300 block"
-                            type="text"
-                            id="username"
-                            name="username"
-                            placeholder="username"
-                            onChange={(e) => setUsername(e.target.value)}
-                            required
-                        />
-                    </label>
-                    <label htmlFor="email">
+                    <label htmlFor="email" className="lg:col-span-2">
                         Email
                         <input
-                            className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300 block"
-                            type="text"
+                            className="w-[100%] border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300 block"
+                            type="email"
                             id="email"
                             name="email"
-                            placeholder="email"
+                            placeholder="Your Email Address"
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
@@ -140,7 +128,12 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <button type="submit">submit</button>
+                <button
+                    type="submit"
+                    className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black self-center mt-2"
+                >
+                    submit
+                </button>
             </motion.form>
             {errorMessage && (
                 <div className="font-semibold flex text-white items-center justify-center">

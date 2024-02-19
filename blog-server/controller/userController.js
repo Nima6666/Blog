@@ -1,5 +1,6 @@
 const post = require("../model/post");
 const passport = require("passport");
+const bcrypt = require("bcryptjs");
 
 const mongoose = require("mongoose");
 
@@ -86,7 +87,40 @@ module.exports.logout = (req, res) => {
 module.exports.createUser = async (req, res) => {
     try {
         console.log(req.body);
-        res.json(req.body);
+        bcrypt.hash(req.body.password, 10, async (err, hashedpassword) => {
+            if (err) {
+                return res.json(err);
+            }
+            console.log(hashedpassword, "hashed");
+            const user = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: hashedpassword,
+            });
+            // try {
+            //     await user.save();
+            //     console.log("created");
+            //     return res.json({
+            //         message: "user created successfully",
+            //     });
+            // } catch (err) {
+            //     console.log("error saving user to database");
+            //     return res.json(err);
+            // }
+            try {
+                // Assuming 'user' is defined and populated with necessary fields
+                await user.save();
+                console.log("User created successfully");
+                return res.json({
+                    message: "User created successfully",
+                });
+            } catch (err) {
+                console.error("Error saving user to database:", err);
+                return res.status(500).json({
+                    message: "Failed to create user. Please try again later.",
+                });
+            }
+        });
     } catch (err) {
         res.json(err);
     }

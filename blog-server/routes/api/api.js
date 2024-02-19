@@ -19,7 +19,7 @@ const auth = require("../../middleware/userAuth");
 router.use(passport.initialize());
 router.use(passport.session());
 
-require("../../config/googleAuth");
+require("../../config/userAuthStrat");
 router.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
