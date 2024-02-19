@@ -7,7 +7,9 @@ export default function Signup() {
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const pageAnim = {
         hidden: {
@@ -27,17 +29,26 @@ export default function Signup() {
         },
     };
 
-    async function handleSignUp() {
+    async function handleSignUp(event) {
+        event.preventDefault();
+
+        if (password !== confirmPassword) {
+            setErrorMessage("passwords doesnt match");
+            return;
+        }
+
         try {
             const formData = {
-                firstname,
-                lastname,
-                username,
-                password,
-                confirmPassword,
+                name: `${firstname} ${lastname}`,
+                username: username,
+                email: email,
+                password: password,
             };
-            console.log(formData);
-            // axios.post(`${import.meta.env.VITE_SERVERAPI}/user`);
+            const response = await axios.post(
+                `${import.meta.env.VITE_SERVERAPI}/register`,
+                formData
+            );
+            console.log(response);
         } catch (err) {
             console.log(err);
         }
@@ -51,10 +62,11 @@ export default function Signup() {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                className="flex flex-col rounded-lg bg-slate-100 justify-around items-center border shadow-2xl border-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                onSubmit={handleSignUp}
+                className="flex flex-col m-16 justify-center items-center"
             >
-                <h1>SIGNUP FORM</h1>
-                <div className="grid grid-cols-2">
+                <h1 className="text-center text-xl font-bold">SIGNUP FORM</h1>
+                <div className="grid lg:grid-cols-2 place-content-center w-fit justify-center gap-[10px] p-2 bg-slate-100 rounded-md">
                     <label htmlFor="firstname">
                         Firstname
                         <input
@@ -91,6 +103,18 @@ export default function Signup() {
                             required
                         />
                     </label>
+                    <label htmlFor="email">
+                        Email
+                        <input
+                            className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300 block"
+                            type="text"
+                            id="email"
+                            name="email"
+                            placeholder="email"
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </label>
                     <label htmlFor="password">
                         Password
                         <input
@@ -116,10 +140,15 @@ export default function Signup() {
                         />
                     </label>
                 </div>
-                <button type="button" onClick={handleSignUp}>
-                    submit
-                </button>
+                <button type="submit">submit</button>
             </motion.form>
+            {errorMessage && (
+                <div className="font-semibold flex text-white items-center justify-center">
+                    <p className="bg-red-500 p-2 rounded-md shadow-sm shadow-red-800">
+                        {errorMessage}
+                    </p>
+                </div>
+            )}
         </AnimatePresence>
     );
 }
