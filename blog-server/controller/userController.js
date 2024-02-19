@@ -2,9 +2,8 @@ const post = require("../model/post");
 const passport = require("passport");
 
 const mongoose = require("mongoose");
-const User = require("../model/users");
 
-const googleUser = require("../model/User");
+const User = require("../model/User");
 module.exports.getPosts = async (req, res) => {
     try {
         const posts = await post.find({ published: true });
@@ -87,6 +86,7 @@ module.exports.logout = (req, res) => {
 module.exports.createUser = async (req, res) => {
     try {
         console.log(req.body);
+        res.json(req.body);
     } catch (err) {
         res.json(err);
     }

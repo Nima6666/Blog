@@ -20,15 +20,6 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 require("../../config/googleAuth");
-
-router.get("/", (req, res) => {
-    res.json({ message: "welcome to my Blog API" });
-});
-
-router.get("/posts", userController.getPosts);
-
-router.get("/posts/:id", userController.getPost);
-
 router.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
@@ -63,6 +54,14 @@ router.get(
     }
 );
 
+router.get("/", (req, res) => {
+    res.json({ message: "welcome to my Blog API" });
+});
+
+router.get("/posts", userController.getPosts);
+
+router.get("/posts/:id", userController.getPost);
+
 router.post(
     "/getLoggedInUser",
     auth.isAuthenticatedGoog,
@@ -73,6 +72,6 @@ router.get("/session", auth.isAuthenticatedGoog, userController.getCurrentUser);
 
 router.post("/logout", auth.isAuthenticatedGoog, userController.logout);
 
-router.post("/user", userController.createUser);
+router.post("/register", userController.createUser);
 
 module.exports = router;

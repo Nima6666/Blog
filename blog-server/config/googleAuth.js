@@ -1,7 +1,6 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
 const GoogUsr = require("../model/User");
-const user = require("../model/users");
 
 passport.use(
     new GoogleStrategy(
@@ -54,14 +53,12 @@ passport.use(
 // });
 
 passport.serializeUser((user, done) => {
-    // console.log("Serializing ", user);
     done(null, user._id); // Store only the user ID in the session
 });
 
 passport.deserializeUser(async (id, done) => {
     try {
         const foundUser = await GoogUsr.findById(id);
-        // console.log("Deserializing ", foundUser);
         done(null, foundUser); // Attach the user object to req.user
     } catch (err) {
         done(err);
