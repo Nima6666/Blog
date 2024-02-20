@@ -14,16 +14,16 @@ router.use(
         },
     })
 );
-const auth = require("../../middleware/userAuth");
 
 router.use(passport.initialize());
 router.use(passport.session());
 
 require("../../config/userAuthStrat");
+const auth = require("../../middleware/userAuth");
 
 router.post(
     "/login",
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("LocalStrategy", (err, user, info) => {
         if (err) {
             console.log("error");
             return res.status(500).json({ message: "Internal Server Error" });

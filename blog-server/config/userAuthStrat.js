@@ -11,6 +11,7 @@ const GoogleStrat = new GoogleStrategy(
         passReqToCallback: true,
     },
     async (req, accessToken, refreshToken, profile, cb) => {
+        console.log("logging");
         const foundUser = await User.findById(profile._json.sub);
         req.accessToken = accessToken;
 
@@ -33,12 +34,12 @@ const GoogleStrat = new GoogleStrategy(
     }
 );
 
-const verifyCallbackFunction = async (email, password, done) => {
-    console.log(email, password, "checking");
+const verifyCallbackFunctionLocal = async (email, password, done) => {
+    console.log("verifying");
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
-            return done(null, false, { message: "Incorrect email" });
+            return done(null, false, { message: "Incorrect Email" });
         }
         const match = await bcrypt.compare(password, user.password);
         if (!match) {
@@ -46,12 +47,11 @@ const verifyCallbackFunction = async (email, password, done) => {
         }
         return done(null, user);
     } catch (err) {
-        console.log("error authenticating user");
         return done(err);
     }
 };
 
-const localStrat = new LocalStrategy(verifyCallbackFunction);
+const localStrat = new LocalStrategy(verifyCallbackFunctionLocal);
 
 passport.use(GoogleStrat);
 passport.use(localStrat);
