@@ -20,6 +20,28 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 require("../../config/userAuthStrat");
+
+router.post(
+    "/login",
+    passport.authenticate("local", (err, user, info) => {
+        if (err) {
+            console.log("error");
+            return res.status(500).json({ message: "Internal Server Error" });
+        }
+        if (!user) {
+            console.log("login failed");
+            return res.status(401).json({ message: "Login failed" });
+        }
+        req.login(user, (err) => {
+            if (err) {
+                return res
+                    .status(500)
+                    .json({ message: "Internal Server Error" });
+            }
+            return res.status(200).json({ message: "Login successful", user });
+        });
+    })
+);
 router.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })

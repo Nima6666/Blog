@@ -2,12 +2,29 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { FaGoogle } from "react-icons/fa";
+import axios from "axios";
 
 export default function LoginForm({ loading }) {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    function handleLogin() {}
+    async function handleLogin(event) {
+        event.preventDefault();
+        const formData = {
+            email: email,
+            password: password,
+        };
+        try {
+            console.log("fetching login");
+            const response = await axios.post(
+                `${import.meta.env.VITE_SERVERAPI}/login`,
+                formData
+            );
+            console.log(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     async function googleLogin() {
         window.location.href = `${import.meta.env.VITE_SERVERAPI}/google`;
@@ -21,14 +38,14 @@ export default function LoginForm({ loading }) {
                 className="min-h-60 min-w-[25vw] flex flex-col rounded-lg bg-slate-100 justify-around align-middle p-5 border shadow-2xl border-gray-500  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             >
                 <h2 className="text-lg self-center mb-2">Login</h2>
-                <label htmlFor="username" className="flex flex-col">
-                    Username
+                <label htmlFor="email" className="flex flex-col">
+                    Email
                     <input
-                        type="text"
-                        name="username"
-                        id="username"
+                        type="email"
+                        name="email"
+                        id="email"
                         className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                 </label>
                 <label htmlFor="password" className="flex flex-col">
