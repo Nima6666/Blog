@@ -21,27 +21,27 @@ router.use(passport.session());
 require("../../config/userAuthStrat");
 const auth = require("../../middleware/userAuth");
 
-router.post(
-    "/login",
-    passport.authenticate("LocalStrategy", (err, user, info) => {
+router.post("/login", (req, res, next) => {
+    passport.authenticate("login", (err, user, info) => {
         if (err) {
-            console.log("error");
-            return res.status(500).json({ message: "Internal Server Error" });
+            return next(err);
         }
         if (!user) {
-            console.log("login failed");
-            return res.status(401).json({ message: "Login failed" });
+            return res.status(401).json({ message: info.message });
         }
-        req.login(user, (err) => {
+        req.logIn(user, (err) => {
             if (err) {
-                return res
-                    .status(500)
-                    .json({ message: "Internal Server Error" });
+                return next(err);
             }
-            return res.status(200).json({ message: "Login successful", user });
+            res.json({ message: "Authentication successful", user });
         });
-    })
-);
+    })(req, res, next);
+});
+
+router.post("/login-failed", (req, res) => {
+    res.send("login failed");
+});
+
 router.get(
     "/google",
     passport.authenticate("google", { scope: ["email", "profile"] })

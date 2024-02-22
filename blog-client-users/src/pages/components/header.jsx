@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { userActions } from "../../store/slices/userSlice";
+import gangstaImg from "/gangsta.jpg";
 
 export default function Header({ loading, user }) {
     const [isForm, setIsForm] = useState(false);
@@ -143,7 +144,11 @@ export default function Header({ loading, user }) {
                                 {loggedInUser.name.split(" ")[0]}
                             </div>
                             <img
-                                src={loggedInUser.profileImg}
+                                src={
+                                    loggedInUser.profileImg
+                                        ? loggedInUser.profileImg
+                                        : gangstaImg
+                                }
                                 onLoad={handleImageLoad}
                                 className="h-10 rounded-full"
                                 onClick={() =>

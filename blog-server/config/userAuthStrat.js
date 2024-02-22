@@ -2,6 +2,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
 const User = require("../model/User");
+const bcrypt = require("bcryptjs");
 
 const GoogleStrat = new GoogleStrategy(
     {
@@ -35,7 +36,7 @@ const GoogleStrat = new GoogleStrategy(
 );
 
 const verifyCallbackFunctionLocal = async (email, password, done) => {
-    console.log("verifying");
+    console.log("verifying ");
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
@@ -51,16 +52,21 @@ const verifyCallbackFunctionLocal = async (email, password, done) => {
     }
 };
 
-const localStrat = new LocalStrategy(verifyCallbackFunctionLocal);
+const localStrat = new LocalStrategy(
+    { usernameField: "email", passwordField: "password" },
+    verifyCallbackFunctionLocal
+);
 
 passport.use(GoogleStrat);
-passport.use(localStrat);
+passport.use("login", localStrat);
 
 passport.serializeUser((user, done) => {
+    console.log("serializing", user);
     done(null, user._id); // Store only the user ID in the session
 });
 
 passport.deserializeUser(async (id, done) => {
+    console.log("deserialising", id);
     try {
         const foundUser = await User.findById(id);
         done(null, foundUser); // Attach the user object to req.user

@@ -10,17 +10,20 @@ export default function LoginForm({ loading }) {
 
     async function handleLogin(event) {
         event.preventDefault();
-        const formData = {
-            email: email,
-            password: password,
-        };
         try {
             console.log("fetching login");
             const response = await axios.post(
                 `${import.meta.env.VITE_SERVERAPI}/login`,
-                formData
+                {
+                    email: email,
+                    password: password,
+                },
+                {
+                    withCredentials: true,
+                }
             );
             console.log(response.data);
+            window.location.href = "/";
         } catch (err) {
             console.log(err);
         }
