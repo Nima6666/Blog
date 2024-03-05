@@ -3,6 +3,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const passport = require("passport");
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
 
 const GoogleStrat = new GoogleStrategy(
     {
