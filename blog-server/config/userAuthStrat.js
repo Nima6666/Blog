@@ -14,25 +14,33 @@ const GoogleStrat = new GoogleStrategy(
     },
     async (req, accessToken, refreshToken, profile, cb) => {
         console.log("logging");
-        const foundUser = await User.findById(profile._json.sub);
-        req.accessToken = accessToken;
+        const id = new mongoose.Types.ObjectId();
+        console.log(id, "id to be set");
+        try {
+            const foundUser = await User.findById(profile._json.sub);
+            req.accessToken = accessToken;
 
-        if (foundUser) {
-            req.user = {
-                user: foundUser,
-            };
-            return cb(null, foundUser);
+            if (foundUser) {
+                req.user = {
+                    user: foundUser,
+                };
+                return cb(null, foundUser);
+            }
+
+            const usr = new User({
+                _id: id,
+                oAuth: true,
+                sub: profile._json.sub,
+                name: profile._json.name,
+                email: profile._json.email,
+                profileImg: profile._json.picture,
+            });
+
+            await usr.save();
+            return cb(null, usr);
+        } catch (error) {
+            console.log(error);
         }
-        const usr = new User({
-            _id: profile._json.sub,
-            name: profile._json.name,
-            email: profile._json.email,
-            profileImg: profile._json.picture,
-            oAuth: true,
-        });
-
-        await usr.save();
-        return cb(null, usr);
     }
 );
 

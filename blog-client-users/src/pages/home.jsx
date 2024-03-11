@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import Header from "./components/header";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -114,8 +115,13 @@ export default function Home() {
         console.log(selPost);
     }
 
+    function log() {
+        console.log(selPost);
+    }
+
     return (
         <AnimatePresence mode="wait">
+            <button onClick={log}>test</button>
             <motion.div>
                 <Header loading={loading} />
                 <div
@@ -147,7 +153,7 @@ export default function Home() {
                                         titleArr.map((titleTxt, index) => (
                                             <motion.h1
                                                 className="text-xl font-bold mr-2 overflow-hidden"
-                                                key={index}
+                                                key={uuidv4()}
                                                 variants={childAnim}
                                                 initial="hidden"
                                                 animate="visible"
@@ -178,7 +184,7 @@ export default function Home() {
                                             className="m-2 text-[#ababab] hover:text-red-500 hover:cursor-pointer"
                                             onClick={likeHandler}
                                         />{" "}
-                                        {selPost._doc.likes}
+                                        {selPost._doc.likes.length}
                                     </div>
                                     <div className="flex items-center mr-2 justify-center rounded-full">
                                         <FaComment
@@ -188,6 +194,18 @@ export default function Home() {
                                         0
                                     </div>
                                 </motion.div>
+                                <div className="w-full flex items-center">
+                                    <input
+                                        type="text"
+                                        name="comment"
+                                        id="comment"
+                                        placeholder="Leave a comment for this post"
+                                        className="border-2 border-green-500 rounded-md mt-2 p-1 pl-2 pr-2 transition focus:bg-slate-300 flex-1"
+                                    />
+                                    <button className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black self-center mt-2">
+                                        comment
+                                    </button>
+                                </div>
                             </motion.div>
                             <motion.aside className=" flex-[0.35]">
                                 <div id="posts">
@@ -203,7 +221,7 @@ export default function Home() {
                                                     <Link
                                                         to={`/${posts._doc._id}`}
                                                         onClick={test}
-                                                        key={index}
+                                                        key={uuidv4()}
                                                     >
                                                         <motion.div
                                                             className=" mh-20 font-bold text-lg bg-[#e2e2e2] p-4 my-4 shadow-md shadow-slate-500 rounded-md w-[100%]"

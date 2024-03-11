@@ -41,6 +41,8 @@ module.exports.getPost = async (req, res) => {
             user: req.user,
         };
 
+        console.log(postFoundUsingID);
+
         res.json({
             url: postFoundUsingID.url,
             _doc: postFoundUsingID,
@@ -93,7 +95,6 @@ module.exports.createUser = async (req, res) => {
             }
             console.log(hashedpassword, "hashed");
             const user = new User({
-                _id: new mongoose.Types.ObjectId().toString(),
                 name: req.body.name,
                 email: req.body.email,
                 password: hashedpassword,
