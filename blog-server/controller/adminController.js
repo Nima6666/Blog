@@ -177,6 +177,7 @@ module.exports.publish = async (req, res) => {
 
     await postFoundUsingID.updateOne({
       published: !postFoundUsingID.published,
+      date: Date.now(),
     });
     const updatedOne = await post.findById(id);
 
