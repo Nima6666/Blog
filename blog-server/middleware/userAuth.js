@@ -7,7 +7,6 @@ module.exports.isAuthenticated = (req, res, next) => {
     const token = bearerToken.split(" ")[1];
     jwt.verify(token, process.env.SECRET, (err, authData) => {
       if (err) {
-        console.log("token invalid");
         res.status(403).json({
           message: "access denied",
         });
@@ -23,11 +22,9 @@ module.exports.isAuthenticated = (req, res, next) => {
 };
 
 module.exports.isAuthenticatedGoog = (req, res, next) => {
-  console.log("Checking authentication...");
   if (req.isAuthenticated()) {
     return next();
   } else {
-    console.log("User is not authenticated.");
     req.user = null;
     return res.json({
       message: "user is not authenticated",

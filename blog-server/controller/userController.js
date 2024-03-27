@@ -12,14 +12,12 @@ module.exports.getPosts = async (req, res) => {
       res.json({ posts });
     }, 500);
   } catch (error) {
-    console.log("error finding posts");
     res.json({ error });
   }
 };
 
 module.exports.getPost = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   try {
     const postFoundUsingID = await post.findById(id);
@@ -42,8 +40,6 @@ module.exports.getPost = async (req, res) => {
 };
 
 module.exports.getLoggedInUser = async (req, res) => {
-  console.log(req.body);
-
   try {
     const foundUser = await googleUser.findById(req.body.id);
     res.json(foundUser);
@@ -75,12 +71,10 @@ module.exports.logout = (req, res) => {
 
 module.exports.createUser = async (req, res) => {
   try {
-    console.log(req.body);
     bcrypt.hash(req.body.password, 10, async (err, hashedpassword) => {
       if (err) {
         return res.json(err);
       }
-      console.log(hashedpassword, "hashed");
       const user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -88,12 +82,10 @@ module.exports.createUser = async (req, res) => {
       });
       try {
         await user.save();
-        console.log("User created successfully");
         return res.json({
           message: "User created successfully",
         });
       } catch (err) {
-        console.error("Error saving user to database:", err);
         return res.status(500).json({
           message: "Failed to create user. Please try again later.",
         });
@@ -111,7 +103,6 @@ module.exports.likeHandler = async (req, res) => {
     const postToLike = await post.findById(postId);
 
     if (!postToLike) {
-      console.log("post not found");
       return res.status(404).json({ message: "Post not found" });
     }
 
@@ -120,11 +111,9 @@ module.exports.likeHandler = async (req, res) => {
         (likeId) => likeId.toString() !== req.user._id.toString()
       );
       await postToLike.save();
-      console.log("Post Unliked");
     } else {
       postToLike.likes.push(req.user._id);
       await postToLike.save();
-      console.log("Post Liked");
     }
     return res.status(200).json({ updatedPost: postToLike });
   } catch (error) {
@@ -135,15 +124,10 @@ module.exports.likeHandler = async (req, res) => {
 module.exports.comment = async (req, res) => {
   const postId = req.params.id;
 
-  console.log(postId);
-
-  console.log(req.user.email);
-
   try {
     const postToComment = await post.findById(postId);
 
     if (!postToComment) {
-      console.log("post not found");
       return res.status(404).json({ message: "Post not found" });
     }
 
@@ -159,7 +143,6 @@ module.exports.comment = async (req, res) => {
     await postToComment.save();
     return res.status(200).json({ updatedPost: postToComment });
   } catch (error) {
-    console.log(error);
     res.json(error);
   }
 };

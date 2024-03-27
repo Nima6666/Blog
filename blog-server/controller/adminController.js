@@ -41,14 +41,12 @@ module.exports.adminCreate = async (req, res) => {
 module.exports.adminLogin = async (req, res) => {
   try {
     const adminfound = await admin.findOne({ username: req.body.username });
-    console.log(adminfound);
     if (adminfound) {
       const isValidPassword = await bcryptjs.compare(
         req.body.password,
         adminfound.password
       );
       if (isValidPassword) {
-        console.log("admin logged in successfully");
         const infoObject = {
           id: adminfound._id,
         };
@@ -62,13 +60,11 @@ module.exports.adminLogin = async (req, res) => {
           username: adminfound.username,
         });
       } else {
-        console.log("incorrect username or password");
         res.status(403).json({
           message: "incorrect username or password",
         });
       }
     } else {
-      console.log("incorrect username or password");
       res.status(403).json({
         message: "incorrect username or password",
       });
@@ -110,7 +106,6 @@ module.exports.createPost = async (req, res) => {
 
 module.exports.getPost = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   try {
     const postFoundUsingID = await post.findById(id);
@@ -136,7 +131,6 @@ module.exports.getPost = async (req, res) => {
 
 module.exports.deletePost = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   try {
     const postFoundUsingID = await post.findById(id);
@@ -163,7 +157,6 @@ module.exports.deletePost = async (req, res) => {
 
 module.exports.publish = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
 
   try {
     const postFoundUsingID = await post.findById(id);

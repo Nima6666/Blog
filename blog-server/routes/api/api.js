@@ -26,14 +26,11 @@ router.get("/", (req, res) => {
 });
 
 router.post("/login", (req, res, next) => {
-  console.log(req.body);
   passport.authenticate("login", (err, user, info) => {
     if (err) {
-      console.log("error");
       return next(err);
     }
     if (!user) {
-      console.log("user not found");
       return res.status(401).json({ message: info.message });
     }
     req.logIn(user, (err) => {
@@ -77,7 +74,6 @@ router.get(
         res.status(401).json({ error: "Unauthorized" });
       }
     } catch (error) {
-      console.error("Error verifying Google token:", error.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }

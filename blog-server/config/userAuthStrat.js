@@ -13,7 +13,6 @@ const GoogleStrat = new GoogleStrategy(
     passReqToCallback: true,
   },
   async (req, accessToken, refreshToken, profile, cb) => {
-    console.log("logging");
     try {
       const foundUser = await User.findOne({ email: profile._json.email });
       req.accessToken = accessToken;
@@ -43,7 +42,6 @@ const GoogleStrat = new GoogleStrategy(
 );
 
 const verifyCallbackFunctionLocal = async (email, password, done) => {
-  console.log("verifying ");
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -68,12 +66,10 @@ passport.use(GoogleStrat);
 passport.use("login", localStrat);
 
 passport.serializeUser((user, done) => {
-  console.log("serializing", user);
   done(null, user._id); // Store only the user ID in the session
 });
 
 passport.deserializeUser(async (id, done) => {
-  console.log("deserialising", id);
   try {
     const foundUser = await User.findById(id);
     done(null, foundUser); // Attach the user object to req.user
