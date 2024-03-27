@@ -16,11 +16,11 @@ export default function Header() {
 
   const dispatch = useDispatch();
 
-  const [imageLoaded, setImageLoaded] = useState(false);
+  // const [imageLoaded, setImageLoaded] = useState(false);
 
-  const usernow = useSelector((state) => state.userReducer.userIn);
+  // const usernow = useSelector((state) => state.userReducer.userIn);
   const loading = useSelector((state) => state.loadingReducer.loading);
-  const loggedInUser = usernow;
+  // const loggedInUser = usernow;
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -87,10 +87,6 @@ export default function Header() {
     },
   };
 
-  function handleImageLoad() {
-    setImageLoaded(true);
-  }
-
   async function logout() {
     const response = await axios.post(
       `${import.meta.env.VITE_SERVERAPI}/logout`,
@@ -103,7 +99,7 @@ export default function Header() {
 
   return (
     <>
-      <header className=" px-16 py-4 bg-[#e8e8e894]  flex justify-between items-center">
+      <header className="z-20 sticky top-0 backdrop-blur-sm shadow-md shadow-[#585858] px-16 py-4 bg-[#e8e8e894]  flex justify-between items-center">
         <motion.div
           className="text-amber-800 text-lg font-extrabold py-2"
           variants={headTitleAnim}
@@ -112,14 +108,14 @@ export default function Header() {
         >
           BLOG <span className="text-[#423bbf]">POST</span>
         </motion.div>
-        {!loading && !loggedInUser.name && (
+        {!loading && (
           <motion.div
             variants={buttonAnim}
             initial="hidden"
             animate="visible"
             className="flex-[0.2] flex justify-between items-center"
           >
-            <Link to="" className="px-4 font-semibold text-nowrap">
+            <Link to="/" className="px-4 font-semibold text-nowrap">
               ALL POSTS
             </Link>
             <button
@@ -131,7 +127,7 @@ export default function Header() {
             </button>
           </motion.div>
         )}
-        {!loading && loggedInUser.name && (
+        {/* {!loading && loggedInUser.name && (
           <>
             <motion.div
               className="flex items-center relative"
@@ -165,7 +161,7 @@ export default function Header() {
               )}
             </motion.div>
           </>
-        )}
+        )} */}
       </header>
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {isForm && <Model modelOpen={isForm} handleClose={handleClose} />}

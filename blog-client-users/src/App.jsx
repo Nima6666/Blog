@@ -1,36 +1,28 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/home";
 import { Provider } from "react-redux";
 import store from "./store/store";
 import Signup from "./pages/signup";
 
 import { AnimatePresence } from "framer-motion";
-import Verification from "./pages/verifyKey";
-import { useEffect } from "react";
-
-const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home />,
-    },
-    {
-        path: "/signup",
-        element: <Signup />,
-    },
-    {
-        path: "/:id",
-        element: <Home />,
-    },
-]);
+import Post from "./pages/post";
+import Header from "./pages/components/header";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-    return (
-        <Provider store={store}>
-            <AnimatePresence mode="wait">
-                <RouterProvider router={router} />
-            </AnimatePresence>
-        </Provider>
-    );
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Header key="header" />
+        <AnimatePresence mode="wait">
+          <Routes>
+            <Route key="home" exact path="/" element={<Home />} />
+            <Route key="signup" path="/signup" element={<Signup />} />
+            <Route key="post" path="/:id" element={<Post />} />
+          </Routes>
+        </AnimatePresence>
+      </BrowserRouter>
+    </Provider>
+  );
 }
 
 export default App;
