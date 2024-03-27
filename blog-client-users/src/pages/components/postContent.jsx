@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getPost, postActions } from "../../store/slices/postSlice";
+import { getPost, like, postActions } from "../../store/slices/postSlice";
 import { loadingActions } from "../../store/slices/locadingSlice";
 import { Blocks } from "react-loader-spinner";
 
@@ -37,6 +37,10 @@ export default function PostContent() {
     minute: "2-digit",
     weekday: "short",
   });
+
+  async function likeHandler() {
+    await like(id);
+  }
 
   return (
     <div className="flex justify-center items-center mt-4 flex-col">
@@ -78,11 +82,20 @@ export default function PostContent() {
               className="flex w-fit justify-between mt-3"
             >
               <div className="flex items-center mr-4">
-                <FaHeart size={30} color="#fff1f1" />
+                <FaHeart
+                  size={30}
+                  color="#fff1f1"
+                  className="hover:cursor-pointer"
+                  onClick={likeHandler}
+                />
                 <p className="p-2">{post.likes.length}</p>
               </div>
               <div className="flex items-center">
-                <FaComment size={30} color="#fff1f1" />
+                <FaComment
+                  size={30}
+                  color="#fff1f1"
+                  className="hover:cursor-pointer"
+                />
                 <p className="p-2">{post.comment.length}</p>
               </div>
             </div>

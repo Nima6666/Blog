@@ -24,6 +24,20 @@ export const getPost = async (id) => {
   }
 };
 
+export const like = async (id) => {
+  console.log("liking post");
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVERAPI}/posts/${id}/like`,
+      {},
+      { withCredentials: true }
+    );
+    console.log(response.data);
+  } catch {
+    return Error;
+  }
+};
+
 export const postSlice = createSlice({
   name: "post",
   initialState: { posts: {}, selPost: [] },

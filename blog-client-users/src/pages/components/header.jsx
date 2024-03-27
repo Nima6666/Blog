@@ -18,9 +18,8 @@ export default function Header() {
 
   // const [imageLoaded, setImageLoaded] = useState(false);
 
-  // const usernow = useSelector((state) => state.userReducer.userIn);
+  const user = useSelector((state) => state.userReducer.userIn);
   const loading = useSelector((state) => state.loadingReducer.loading);
-  // const loggedInUser = usernow;
 
   useEffect(() => {
     async function getCurrentUser() {
@@ -37,7 +36,7 @@ export default function Header() {
     // });
   }, []);
 
-  // console.log("loggedIn usr: ", loggedInUser);
+  console.log("loggedIn usr: ", user);
 
   function handleClose() {
     dispatch(formAction.setForm());
@@ -118,13 +117,40 @@ export default function Header() {
             <Link to="/" className="px-4 font-semibold text-nowrap">
               ALL POSTS
             </Link>
-            <button
-              className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold shadow-md shadow-black text-nowrap"
-              onClick={() => dispatch(formAction.setForm())}
-              disabled={loading}
-            >
-              Be Our Guest
-            </button>
+            {!user ? (
+              <button
+                className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold shadow-md shadow-black text-nowrap"
+                onClick={() => dispatch(formAction.setForm())}
+                disabled={loading}
+              >
+                Be Our Guest
+              </button>
+            ) : (
+              <div className="flex items-center">
+                <div className="relative">
+                  <img
+                    src={user.profileImg ? user.profileImg : gangstaImg}
+                    className="h-10 rounded-full"
+                    onClick={() =>
+                      toggleLogout
+                        ? setToggleLogout(false)
+                        : setToggleLogout(true)
+                    }
+                  />
+                  {toggleLogout && (
+                    <motion.div
+                      id="logoutBtn"
+                      className="absolute top-[120%] right-[0px] bg-red-600 text-white rounded-md shadow-md shadow-red-700"
+                    >
+                      <button onClick={logout} className="p-2">
+                        logout
+                      </button>
+                    </motion.div>
+                  )}
+                </div>
+                <div className="text-lg p-2">{user.name.split(" ")[0]}</div>
+              </div>
+            )}
           </motion.div>
         )}
         {/* {!loading && loggedInUser.name && (
