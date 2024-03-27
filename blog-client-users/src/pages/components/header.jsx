@@ -128,6 +128,7 @@ export default function Header() {
                         : setToggleLogout(true)
                     }
                   />
+
                   {toggleLogout && (
                     <motion.div
                       id="logoutBtn"

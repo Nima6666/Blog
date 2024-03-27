@@ -11,7 +11,10 @@ const blogSchema = new Schema({
   comment: [
     {
       user: { type: Schema.Types.ObjectId, ref: "Users" },
+      email: { type: String, required: true },
       text: { type: String, required: true },
+      fullName: { type: String, required: false },
+      imageURL: { type: String, required: false },
       date: { type: Date, default: null },
     },
   ],

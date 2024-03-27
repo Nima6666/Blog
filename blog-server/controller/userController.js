@@ -135,6 +135,10 @@ module.exports.likeHandler = async (req, res) => {
 module.exports.comment = async (req, res) => {
   const postId = req.params.id;
 
+  console.log(postId);
+
+  console.log(req.user.email);
+
   try {
     const postToComment = await post.findById(postId);
 
@@ -145,13 +149,17 @@ module.exports.comment = async (req, res) => {
 
     postToComment.comment.push({
       user: req.user._id,
+      email: req.user.email,
       text: req.body.comment,
       date: Date.now(),
+      fullName: req.user.name,
+      imageURL: req.user.profileImg ? req.user.profileImg : null,
     });
 
     await postToComment.save();
     return res.status(200).json({ updatedPost: postToComment });
   } catch (error) {
+    console.log(error);
     res.json(error);
   }
 };

@@ -37,10 +37,10 @@ export const like = async (id) => {
   }
 };
 
-export const commentHandle = async (comment) => {
+export const commentHandle = async (comment, id) => {
   try {
     const response = await axios.post(
-      `${import.meta.env.VITE_SERVERAPI}/posts/${comment}/comment`,
+      `${import.meta.env.VITE_SERVERAPI}/posts/${id}/comment`,
       { comment },
       { withCredentials: true }
     );

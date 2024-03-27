@@ -17,6 +17,8 @@ import { FaHeart } from "react-icons/fa";
 import { FaComment } from "react-icons/fa";
 import { formAction } from "../../store/slices/loginFormSlice";
 
+import defaultProfImg from "/gangsta.jpg";
+
 export default function PostContent() {
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -47,14 +49,17 @@ export default function PostContent() {
     }
   }, [user, userLike, dispatch, post]);
 
-  const formattedDateTime = new Date(post.date).toLocaleString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    weekday: "short",
-  });
+  function dateConverter(date) {
+    const formattedDateTime = new Date(date).toLocaleString("en-US", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      weekday: "short",
+    });
+    return formattedDateTime;
+  }
 
   async function likeHandler() {
     const res = await like(id);
@@ -67,14 +72,18 @@ export default function PostContent() {
   }
 
   async function commentHandler() {
-    const res = await commentHandle(comment);
+    const res = await commentHandle(comment, id);
     console.log(res, "commentew");
     if (res.message == "user is not authenticated") {
       dispatch(formAction.setForm(true));
     } else {
       dispatch(postActions.setSelPost(await res.updatedPost));
     }
+    setComment("");
+    document.querySelector("#comment").value = "";
   }
+
+  console.log(post);
 
   return (
     <div className="flex justify-center items-center mt-4 flex-col">
@@ -86,10 +95,10 @@ export default function PostContent() {
         <>
           <div
             id="selectedPost"
-            className="w-8/9 md:w-5/6 lg:w-1/2 mt-4 shadowOp p-4"
+            className="w-[90vw] md:w-5/6 lg:w-1/2 mt-4 shadowOp p-4"
           >
             <h2 className="text-right mb-3">
-              Published Date: {formattedDateTime}
+              Published Date: {dateConverter(post.date)}
             </h2>
             <div
               id="titleAnimated"
@@ -134,12 +143,32 @@ export default function PostContent() {
               </div>
             </div>
           </div>
-          <div id="comments">
+          <div id="comments" className="mt-4 w-[90vw] md:w-5/6 lg:w-1/2">
             {post.comment.map((comm, index) => {
-              return <div key={index}>{comm}</div>;
+              return (
+                <div
+                  key={index}
+                  className="flex  bg-slate-200 p-4 rounded-md mb-4"
+                >
+                  <div className="flex flex-col mr-4 pr-2 border-r-[1px] border-black min-w-[250px]">
+                    <img
+                      src={comm.imageURL ? comm.imageURL : defaultProfImg}
+                      className="max-h-[40px] max-w-[40px] rounded-full"
+                      alt=""
+                    />
+                    <div className="text-sm">{comm.email}</div>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-sm mb-2">
+                      {dateConverter(comm.date)}
+                    </div>
+                    <p className="break-all">{comm.text}</p>
+                  </div>
+                </div>
+              );
             })}
           </div>
-          <div className="w-8/9 md:w-5/6 lg:w-1/2 pb-28 ">
+          <div className="w-[90vw] md:w-5/6 lg:w-1/2 pb-28 ">
             <textarea
               name="comment"
               id="comment"
