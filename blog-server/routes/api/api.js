@@ -21,12 +21,19 @@ router.use(passport.session());
 require("../../config/userAuthStrat");
 const auth = require("../../middleware/userAuth");
 
+router.get("/", (req, res) => {
+  res.json({ message: "welcome to my Blog API" });
+});
+
 router.post("/login", (req, res, next) => {
+  console.log(req.body);
   passport.authenticate("login", (err, user, info) => {
     if (err) {
+      console.log("error");
       return next(err);
     }
     if (!user) {
+      console.log("user not found");
       return res.status(401).json({ message: info.message });
     }
     req.logIn(user, (err) => {
@@ -75,10 +82,6 @@ router.get(
     }
   }
 );
-
-router.get("/", (req, res) => {
-  res.json({ message: "welcome to my Blog API" });
-});
 
 router.get("/posts", userController.getPosts);
 

@@ -31,18 +31,9 @@ module.exports.getPost = async (req, res) => {
       });
     }
 
-    const postsWithUrl = {
-      postFoundUsingID,
-      url: postFoundUsingID.url,
-      user: req.user,
-    };
-
-    console.log(postFoundUsingID);
-
-    res.json({
-      url: postFoundUsingID.url,
-      _doc: postFoundUsingID,
-    });
+    setTimeout(() => {
+      res.json(postFoundUsingID);
+    }, 500);
   } catch (err) {
     res.json({
       message: err,
@@ -114,37 +105,53 @@ module.exports.createUser = async (req, res) => {
 };
 
 module.exports.likeHandler = async (req, res) => {
-  console.log(req.user);
   const postId = req.params.id;
-  console.log(req.body, postId);
 
   try {
-    const postToLike = await post.findById(req.body.postId);
+    const postToLike = await post.findById(postId);
 
     if (!postToLike) {
+      console.log("post not found");
       return res.status(404).json({ message: "Post not found" });
     }
 
-    if (postToLike.likes.includes(req.user._id)) {
-      console.log(req.user._id, "user founnd");
-      console.log(postToLike.likes, "user lik");
+    if (postToLike.likes.includes(req.user._id.toString())) {
       postToLike.likes = postToLike.likes.filter(
-        (likeId) => likeId.toString() !== req.user._id
+        (likeId) => likeId.toString() !== req.user._id.toString()
       );
       await postToLike.save();
-      return res.status(200).json({ message: "Post unliked" });
+      console.log("Post Unliked");
     } else {
       postToLike.likes.push(req.user._id);
-      console.log(req.user._id);
       await postToLike.save();
-      return res.status(200).json({ message: "Post liked" });
+      console.log("Post Liked");
     }
+    return res.status(200).json({ updatedPost: postToLike });
   } catch (error) {
-    console.log(error);
     res.json(error);
   }
 };
 
 module.exports.comment = async (req, res) => {
-  console.log(req);
+  const postId = req.params.id;
+
+  try {
+    const postToComment = await post.findById(postId);
+
+    if (!postToComment) {
+      console.log("post not found");
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    postToComment.comment.push({
+      user: req.user._id,
+      text: req.body.comment,
+      date: Date.now(),
+    });
+
+    await postToComment.save();
+    return res.status(200).json({ updatedPost: postToComment });
+  } catch (error) {
+    res.json(error);
+  }
 };

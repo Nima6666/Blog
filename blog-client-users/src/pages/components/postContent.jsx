@@ -1,7 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getPost, like, postActions } from "../../store/slices/postSlice";
+import {
+  commentHandle,
+  getPost,
+  like,
+  postActions,
+} from "../../store/slices/postSlice";
 import { loadingActions } from "../../store/slices/locadingSlice";
 import { Blocks } from "react-loader-spinner";
 
@@ -10,6 +15,7 @@ import { childAnim } from "../animations";
 
 import { FaHeart } from "react-icons/fa";
 import { FaComment } from "react-icons/fa";
+import { formAction } from "../../store/slices/loginFormSlice";
 
 export default function PostContent() {
   const dispatch = useDispatch();
@@ -17,17 +23,29 @@ export default function PostContent() {
 
   const post = useSelector((state) => state.postReducer.selPost);
   const postLoading = useSelector((state) => state.loadingReducer.postLoading);
+  const user = useSelector((state) => state.userReducer.userIn);
+  const userLike = useSelector((state) => state.postReducer.userLike);
+
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
     dispatch(loadingActions.setLoading(false));
-    const postRetriver = async () => {
+    const postRetriever = async () => {
       dispatch(postActions.setSelPost(await getPost(id)));
       dispatch(loadingActions.setPostLoading(false));
     };
-    postRetriver();
+    postRetriever();
   }, [dispatch, id]);
 
-  console.log(post);
+  useEffect(() => {
+    if (user && user._id && post && post.likes) {
+      if (post.likes.includes(user._id) && !userLike) {
+        dispatch(postActions.setLike(true));
+      } else if (!post.likes.includes(user._id) && userLike) {
+        dispatch(postActions.setLike(false));
+      }
+    }
+  }, [user, userLike, dispatch, post]);
 
   const formattedDateTime = new Date(post.date).toLocaleString("en-US", {
     year: "numeric",
@@ -39,7 +57,23 @@ export default function PostContent() {
   });
 
   async function likeHandler() {
-    await like(id);
+    const res = await like(id);
+    console.log(await res);
+    if (res.message == "user is not authenticated") {
+      dispatch(formAction.setForm(true));
+    } else {
+      dispatch(postActions.setSelPost(await res.updatedPost));
+    }
+  }
+
+  async function commentHandler() {
+    const res = await commentHandle(comment);
+    console.log(res, "commentew");
+    if (res.message == "user is not authenticated") {
+      dispatch(formAction.setForm(true));
+    } else {
+      dispatch(postActions.setSelPost(await res.updatedPost));
+    }
   }
 
   return (
@@ -84,7 +118,7 @@ export default function PostContent() {
               <div className="flex items-center mr-4">
                 <FaHeart
                   size={30}
-                  color="#fff1f1"
+                  color={`${userLike ? "#000000" : "#fff1f1"}`}
                   className="hover:cursor-pointer"
                   onClick={likeHandler}
                 />
@@ -100,6 +134,11 @@ export default function PostContent() {
               </div>
             </div>
           </div>
+          <div id="comments">
+            {post.comment.map((comm, index) => {
+              return <div key={index}>{comm}</div>;
+            })}
+          </div>
           <div className="w-8/9 md:w-5/6 lg:w-1/2 pb-28 ">
             <textarea
               name="comment"
@@ -107,8 +146,12 @@ export default function PostContent() {
               maxLength={200}
               className="resize-none w-full h-[200px] mt-4 border-2 border-green-500 rounded-md p-1 pl-2 pr-2 transition focus:bg-slate-300 "
               placeholder="Write Something about this post"
+              onChange={(e) => setComment(e.target.value)}
             ></textarea>
-            <button className="text-nowrap border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black self-center mt-2">
+            <button
+              onClick={commentHandler}
+              className="text-nowrap border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold transition-all duration-200 shadow-md hover:shadow-sm shadow-black self-center mt-2"
+            >
               Leave a Comment
             </button>
           </div>

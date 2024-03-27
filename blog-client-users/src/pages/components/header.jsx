@@ -39,7 +39,7 @@ export default function Header() {
   console.log("loggedIn usr: ", user);
 
   function handleClose() {
-    dispatch(formAction.setForm());
+    dispatch(formAction.setForm(false));
   }
 
   const buttonAnim = {
@@ -92,7 +92,6 @@ export default function Header() {
       null,
       { withCredentials: true }
     );
-    console.log(response.data);
     window.location.reload();
   }
 
@@ -117,20 +116,12 @@ export default function Header() {
             <Link to="/" className="px-4 font-semibold text-nowrap">
               ALL POSTS
             </Link>
-            {!user ? (
-              <button
-                className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold shadow-md shadow-black text-nowrap"
-                onClick={() => dispatch(formAction.setForm())}
-                disabled={loading}
-              >
-                Be Our Guest
-              </button>
-            ) : (
+            {user && user.name && !loading ? (
               <div className="flex items-center">
-                <div className="relative">
+                <div className="relative h-fit w-fit">
                   <img
                     src={user.profileImg ? user.profileImg : gangstaImg}
-                    className="h-10 rounded-full"
+                    className="h-10 w-10 rounded-full object-cover max-h-[40px] max-w-[40px]"
                     onClick={() =>
                       toggleLogout
                         ? setToggleLogout(false)
@@ -150,6 +141,14 @@ export default function Header() {
                 </div>
                 <div className="text-lg p-2">{user.name.split(" ")[0]}</div>
               </div>
+            ) : (
+              <button
+                className="border border-[#ffffff] p-2 rounded-md bg-black text-white font-bold shadow-md shadow-black text-nowrap"
+                onClick={() => dispatch(formAction.setForm(true))}
+                disabled={loading}
+              >
+                Be Our Guest
+              </button>
             )}
           </motion.div>
         )}

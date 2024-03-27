@@ -15,6 +15,7 @@ export default function Home() {
   const loading = useSelector((state) => state.loadingReducer.loading);
 
   useEffect(() => {
+    dispatch(loadingActions.setLoading(true));
     const post = async () => {
       dispatch(postActions.setPosts(await getPosts()));
       dispatch(loadingActions.setLoading(false));

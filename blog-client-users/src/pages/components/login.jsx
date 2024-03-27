@@ -84,7 +84,7 @@ export default function LoginForm({ loading }) {
           Don't have an account{" "}
           <Link
             to="/signup"
-            onClick={() => dispatch(formAction.setForm())}
+            onClick={() => dispatch(formAction.setForm(false))}
             className="text-blue-700"
           >
             signup

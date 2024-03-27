@@ -25,28 +25,43 @@ export const getPost = async (id) => {
 };
 
 export const like = async (id) => {
-  console.log("liking post");
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_SERVERAPI}/posts/${id}/like`,
       {},
       { withCredentials: true }
     );
-    console.log(response.data);
+    return response.data;
   } catch {
     return Error;
   }
 };
 
+export const commentHandle = async (comment) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVERAPI}/posts/${comment}/comment`,
+      { comment },
+      { withCredentials: true }
+    );
+    return response.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const postSlice = createSlice({
   name: "post",
-  initialState: { posts: {}, selPost: [] },
+  initialState: { posts: {}, selPost: [], userLike: false },
   reducers: {
     setPosts(state, action) {
       state.posts = action.payload;
     },
     setSelPost(state, action) {
       state.selPost = action.payload;
+    },
+    setLike(state, action) {
+      state.userLike = action.payload;
     },
   },
 });

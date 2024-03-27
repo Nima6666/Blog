@@ -14,10 +14,8 @@ const GoogleStrat = new GoogleStrategy(
   },
   async (req, accessToken, refreshToken, profile, cb) => {
     console.log("logging");
-    const id = new mongoose.Types.ObjectId();
-    console.log(id, "id to be set");
     try {
-      const foundUser = await User.findById(profile._json.sub);
+      const foundUser = await User.findOne({ email: profile._json.email });
       req.accessToken = accessToken;
 
       if (foundUser) {
@@ -28,7 +26,7 @@ const GoogleStrat = new GoogleStrategy(
       }
 
       const usr = new User({
-        _id: id,
+        _id: new mongoose.Types.ObjectId(),
         oAuth: true,
         sub: profile._json.sub,
         name: profile._json.name,
